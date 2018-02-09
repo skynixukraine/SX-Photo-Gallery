@@ -23,6 +23,13 @@ License: GPL
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+// load classes
+spl_autoload_register( function ( $class_name ) {
+    $classes_dir = plugin_dir_path( __FILE__ ) . '/classes/class-';
+    $file = $classes_dir . strtolower( str_replace( '_', '-', $class_name ) ) . '.php';
+    if( file_exists( $file ) ) require_once( $file );
+} );
+
 /**
  * Add admin menu item
  */
@@ -48,3 +55,6 @@ function sxpg_menu_page_content(){
     esc_html_e( 'Hello! Thank You for using our plugin and complying with license requirements.', 'sx_photo_gallery' );
     echo "</p><hr>";
 }
+
+$admin_menu = new SXPG_settings();
+$admin_menu->init();
