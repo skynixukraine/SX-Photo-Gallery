@@ -23,28 +23,12 @@ License: GPL
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-/**
- * Add admin menu item
- */
-function sxpg_add_menu_page()
-{
-    add_menu_page(
-        "SX Photo Gallery",
-        "SX Photo Gallery",
-        "manage_options",
-        "skynix_photo_gallery",
-        'sxpg_menu_page_content',
-        plugins_url( 'sx_photo_gallery/assets/images/sx_photo_gallery.ico' ),
-        10
-    );
-}
-add_action('admin_menu', 'sxpg_add_menu_page');
+// load classes
+spl_autoload_register( function ( $class_name ) {
+    $classes_dir = plugin_dir_path( __FILE__ ) . '/classes/class-';
+    $file = $classes_dir . strtolower( str_replace( '_', '-', $class_name ) ) . '.php';
+    if( file_exists( $file ) ) require_once( $file );
+} );
 
-/**
- * Admin menu page
- */
-function sxpg_menu_page_content(){
-    echo "<hr><p>";
-    esc_html_e( 'Hello! Thank You for using our plugin and complying with license requirements.', 'sx_photo_gallery' );
-    echo "</p><hr>";
-}
+$sxpg = new SXPG_init();
+$sxpg->init();
