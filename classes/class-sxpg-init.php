@@ -11,14 +11,14 @@ class SXPG_init {
     }
 
     public function init() {
-        // Register new post type
-        add_action( 'init', array( $this->gallery, 'sxpg_create_post_type' ) );
+        $this->gallery->init();
         // Register settings options
         add_action( 'admin_init', array( $this->settings, 'sxpg_settings_fields' ) );
         // Create plugin menu item
         add_action( 'admin_menu', array( $this, 'sxpg_add_menu_page' ) );
         // Create settings subpage
         add_action( 'admin_menu', array( $this->settings, 'sxpg_options_page' ) );
+
     }
 
     /**
