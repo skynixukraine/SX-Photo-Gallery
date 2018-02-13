@@ -123,15 +123,24 @@ class SXPG_gallery {
         register_taxonomy( $this->taxonomy, $this->post_type, $args );
     }
 
-    // Echo the thumbnail in posts table
+    /**
+     * Echo the thumbnail in posts table
+     *
+     * @param $column
+     */
     public function sxpg_custom_columns( $column ){
+        global $post;
+
         if ( $column == 'sxpg_post_thumb' ) {
-            the_post_thumbnail('thumbnail');
+            echo '<a href="' . get_edit_post_link( $post->ID ) . '">' . get_the_post_thumbnail( $post->ID, 'thumbnail' ) . '</a>';
         }
     }
 
     /**
      * Add photo preview column
+     *
+     * @param $cols
+     * @return array
      */
     public function sxpg_add_post_thumbnail_column( $cols ){
         $add_cols = array(
@@ -176,7 +185,14 @@ class SXPG_gallery {
 
     }
 
+    /**
+     * Return html string with images from specified gallery
+     *
+     * @param string $gallery_name
+     * @return string
+     */
     public function sxpg_output_gallery( $gallery_name ){
+        $response = '<div class="sxpg-gallery ' . $gallery_name[0] . '" >';
         $args = array(
             'post_type' => $this->post_type,
             'tax_query' => array(
@@ -189,9 +205,15 @@ class SXPG_gallery {
         );
 
         $gallery = new WP_Query( $args );
+        if ( $gallery->have_posts() ) {
+            while ( $gallery->have_posts() ) {
+                $gallery->the_post();
+                $attachment_id = get_post_thumbnail_id( $gallery->post->ID );
+                $response .= '<img src="' . wp_get_attachment_image_src( $attachment_id, 'full' )[0] . '" alt="' . $gallery->post->post_title . '" />';
+            }
+        }
 
-//        return $gallery;
-        var_dump( $gallery );
+        return $response . '</div>';
     }
 
 }
