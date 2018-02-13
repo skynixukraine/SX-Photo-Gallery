@@ -5,15 +5,21 @@
 
 class SXPG_settings {
 
-    public function __construct() {
+    public $skin = "sxpg-skin";
+    public $template_path;
+    public $default_template = "Skynix Dark";
+    public $plugin_url;
 
+    public function __construct() {
+        $this->template_path = plugin_dir_path( __DIR__ ) . 'templates/';
+        $this->plugin_url    = plugin_dir_url( __DIR__ ) . 'templates/';
     }
 
     /**
      * Register new settings
      */
     public function sxpg_settings_fields(){
-        register_setting( 'sxpg-settings', 'sxpg-settings' );
+        register_setting( 'sxpg-settings', $this->skin );
     }
 
     /**
@@ -32,8 +38,7 @@ class SXPG_settings {
     }
 
     /**
-     * top level menu:
-     * callback functions
+     * Add options to settings page
      */
     public function sxpg_settings_page_content() {
         // check user capabilities
@@ -41,15 +46,21 @@ class SXPG_settings {
             return;
         }
 
-        $option = get_option( 'sxpg-settings' );
+        $option = get_option( $this->skin );
+        $skins  = $this->sxpg_get_available_skins();
 
         ?>
         <div class="wrap">
             <h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
             <form action="options.php" method="post">
-                <label for="allowed_settings_textarea" >SX Photo Gallery Skin</label><br/>
-                <select class="sxpg-select" id="sxpg-settings" name="sxpg-settings">
-                    <option <?php echo ( ( $option == "Skynix Dark" ) ) ? "selected" : ''; ?> value="Skynix Dark">Skynix Dark</option>
+                <label for="<?php echo $this->skin; ?>" >SX Photo Gallery Skin</label><br/>
+                <select class="sxpg-select" id="<?php echo $this->skin; ?>" name="<?php echo $this->skin; ?>">
+                    <?php
+                        foreach ( $skins as $skin ){
+                            $selected = ( ( $option == $skin ) ) ? "selected" : "";
+                            echo '<option ' . $selected . ' value="' . $skin . '">' . $skin . '</option>';
+                        }
+                    ?>
                 </select>
 
                 <?php
@@ -62,6 +73,34 @@ class SXPG_settings {
             </form>
         </div>
         <?php
+    }
+
+    /**
+     * Get all available skins
+     *
+     * @return array
+     */
+    public function sxpg_get_available_skins(){
+        $skins = [];
+        $names = scandir( $this->template_path );
+        foreach ( $names as $name ) {
+            if ( ( $name != '.' && $name != '..' ) && is_dir( $this->template_path . $name ) ) {
+                $skins[] = $name;
+            }
+        }
+
+        return $skins;
+    }
+
+    /**
+     * Enqueue the selected skin template
+     */
+    public function sxpg_load_template(){
+        $skin = get_option( $this->skin );
+        if ( empty( $skin ) ) {
+            $skin = $this->default_template;
+        }
+        wp_enqueue_style( "sxpg_template", $this->plugin_url . $skin . '/template.css' );
     }
 
 }

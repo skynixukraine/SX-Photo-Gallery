@@ -18,7 +18,8 @@ class SXPG_init {
         add_action( 'admin_menu', array( $this, 'sxpg_add_menu_page' ) );
         // Create settings subpage
         add_action( 'admin_menu', array( $this->settings, 'sxpg_options_page' ) );
-
+        // Load SX Photo Gallery selected skin template
+        add_action( 'wp_enqueue_scripts', array( $this->settings, 'sxpg_load_template' ) );
     }
 
     /**

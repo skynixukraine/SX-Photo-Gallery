@@ -31,7 +31,7 @@ class SXPG_gallery {
 
         add_shortcode( 'SXPhotoGallery', array( $this, 'sxpg_output_gallery' ) );
     }
-    
+
     /**
      * Create new post type
      */
