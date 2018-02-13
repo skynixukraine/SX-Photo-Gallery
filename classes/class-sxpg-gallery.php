@@ -28,6 +28,8 @@ class SXPG_gallery {
         }
         // Add filter by gallery names in posts display
         add_action( 'restrict_manage_posts', array( $this, 'sxpg_filter_by_galleries' ), 10, 2 );
+
+        add_shortcode( 'SXPhotoGallery', array( $this, 'sxpg_output_gallery' ) );
     }
     
     /**
@@ -42,11 +44,11 @@ class SXPG_gallery {
             'menu_name'           => __( 'SX Photo Galleries', 'sx_photo_gallery' ),
             'parent_item_colon'   => __( 'Parent SX Photo Gallery', 'sx_photo_gallery' ),
             'all_items'           => __( 'All Photos', 'sx_photo_gallery' ),
-            'view_item'           => __( 'View SX Photo Gallery', 'sx_photo_gallery' ),
-            'add_new_item'        => __( 'Add New SX Photo Gallery', 'sx_photo_gallery' ),
-            'add_new'             => __( 'Add New', 'sx_photo_gallery' ),
-            'edit_item'           => __( 'Edit SX Photo Gallery', 'sx_photo_gallery' ),
-            'update_item'         => __( 'Update SX Photo Gallery', 'sx_photo_gallery' ),
+            'view_item'           => __( 'View Photo', 'sx_photo_gallery' ),
+            'add_new_item'        => __( 'Add New Photo', 'sx_photo_gallery' ),
+            'add_new'             => __( 'Add New Photo', 'sx_photo_gallery' ),
+            'edit_item'           => __( 'Edit Photo', 'sx_photo_gallery' ),
+            'update_item'         => __( 'Update Photo', 'sx_photo_gallery' ),
             'search_items'        => __( 'Search Photos', 'sx_photo_gallery' ),
             'not_found'           => __( 'Not Found', 'sx_photo_gallery' ),
             'not_found_in_trash'  => __( 'Not found in Trash', 'sx_photo_gallery' ),
@@ -121,15 +123,24 @@ class SXPG_gallery {
         register_taxonomy( $this->taxonomy, $this->post_type, $args );
     }
 
-    // Echo the thumbnail in posts table
+    /**
+     * Echo the thumbnail in posts table
+     *
+     * @param $column
+     */
     public function sxpg_custom_columns( $column ){
+        global $post;
+
         if ( $column == 'sxpg_post_thumb' ) {
-            the_post_thumbnail('thumbnail');
+            echo '<a href="' . get_edit_post_link( $post->ID ) . '">' . get_the_post_thumbnail( $post->ID, 'thumbnail' ) . '</a>';
         }
     }
 
     /**
      * Add photo preview column
+     *
+     * @param $cols
+     * @return array
      */
     public function sxpg_add_post_thumbnail_column( $cols ){
         $add_cols = array(
@@ -146,7 +157,7 @@ class SXPG_gallery {
      * 
      * @param $post_type
      */
-    function sxpg_filter_by_galleries( $post_type ) {
+    public function sxpg_filter_by_galleries( $post_type ) {
 
         // Apply this only on a specific post type
         if ( $this->post_type !== $post_type )
@@ -172,6 +183,37 @@ class SXPG_gallery {
         }
         echo '</select>';
 
+    }
+
+    /**
+     * Return html string with images from specified gallery
+     *
+     * @param string $gallery_name
+     * @return string
+     */
+    public function sxpg_output_gallery( $gallery_name ){
+        $response = '<div class="sxpg-gallery ' . $gallery_name[0] . '" >';
+        $args = array(
+            'post_type' => $this->post_type,
+            'tax_query' => array(
+                array(
+                    'taxonomy' => $this->taxonomy,
+                    'field'    => 'slug',
+                    'terms'    => $gallery_name,
+                ),
+            ),
+        );
+
+        $gallery = new WP_Query( $args );
+        if ( $gallery->have_posts() ) {
+            while ( $gallery->have_posts() ) {
+                $gallery->the_post();
+                $attachment_id = get_post_thumbnail_id( $gallery->post->ID );
+                $response .= '<img src="' . wp_get_attachment_image_src( $attachment_id, 'full' )[0] . '" alt="' . $gallery->post->post_title . '" />';
+            }
+        }
+
+        return $response . '</div>';
     }
 
 }
