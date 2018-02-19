@@ -54,23 +54,25 @@ class SXPG_gallery {
             'not_found_in_trash'  => __( 'Not found in Trash', 'sx_photo_gallery' ),
         );
 
+        $supports = array(
+            'title',
+//            'editor',
+            'author',
+            'thumbnail',
+//            'excerpt',
+//            'trackbacks',
+            'custom-fields',
+//            'comments',
+//            'revisions',
+//            'page-attributes',
+//            'post-formats',
+        );
+
         // Set other options for Custom Post Type
         $args = array(
             'description'         => __( 'Inline photo gallery', 'sx_photo_gallery' ),
             'labels'              => $labels,
-            'supports'            => array(
-                'title',
-                'editor',
-                'author',
-                'thumbnail',
-                'excerpt',
-                'trackbacks',
-                'custom-fields',
-                'comments',
-                'revisions',
-                'page-attributes',
-                'post-formats',
-            ),
+            'supports'            => $supports,
             'taxonomies'          => array(),
             'hierarchical'        => false,
             'public'              => true,
