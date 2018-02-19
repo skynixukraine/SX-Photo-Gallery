@@ -1,6 +1,6 @@
 === SX Photo Gallery ===
 Contributors: skynix
-Donate link: do not have yet
+# Donate link: do not have yet
 Tags: photo, gallery, simple, inline, free, wordpress, plugin, skynix
 Requires at least: 4.6
 Tested up to: 4.9.4
@@ -76,6 +76,25 @@ Go to SX Photo Galleries -> All SX Photo Galleries.
 There will be a table with list of created galleries on the right.
 One of the columns in that table is called "Slug", and that is where You can find out slug of any gallery.
 
+= How to find out what photos are in a gallery? =
+
+You can either:
+1. Go to SX Photo Galleries -> All SX Photo Galleries.
+2. In the table find column "Count". It will show how many photos each gallery has.
+3. By pressing on the number You will be redirected to Go to SX Photo Galleries -> All Photos
+and there will be listed only photos from that particular gallery.
+
+Or, You can do it this way:
+1. Go to SX Photo Galleries -> All Photos.
+2. On the filter bar You will see an option to filter by gallery. By default it says "Show All SX Photo Galleries".
+3. Press it, select desired gallery and press "Filter". All photos related to selected gallery will be listed.
+
+= How to change gallery style? =
+
+1. Go to SX Photo Gallery -> Settings.
+2. Choose one of available styles from "SX Photo Gallery Skin" option.
+3. Press "Save".
+
 == Screenshots ==
 
 1. This screen shot description corresponds to screenshot-1.(png|jpg|jpeg|gif). Note that the screenshot is taken from
@@ -88,3 +107,8 @@ directory take precedence. For example, `/assets/screenshot-1.png` would win ove
 
 = 1.0.0 =
 Plugin uploaded.
+
+== Upgrade Notice ==
+
+= 1.0 =
+Plugin has default "Skynix Dark" skin for galleries.
