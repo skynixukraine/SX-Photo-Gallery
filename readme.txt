@@ -111,5 +111,5 @@ Plugin uploaded.
 
 == Upgrade Notice ==
 
-= 1.0 =
+= 1.0.0 =
 Plugin has default "Skynix Dark" skin for galleries.
