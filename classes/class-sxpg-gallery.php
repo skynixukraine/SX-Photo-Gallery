@@ -7,7 +7,7 @@ class SXPG_gallery {
 
     public $taxonomy   = 'sx_gallery_names';
     public $post_type  = 'sx_photo_galleries';
-    
+
     public function __construct() {
 
     }
@@ -41,7 +41,7 @@ class SXPG_gallery {
         $labels = array(
             'name'                => _x( 'SX Photo Galleries', 'Post Type General Name', 'sx_photo_gallery' ),
             'singular_name'       => _x( 'SX Photo Gallery', 'Post Type Singular Name', 'sx_photo_gallery' ),
-            'menu_name'           => __( 'SX Photo Galleries', 'sx_photo_gallery' ),
+            'menu_name'           => __( 'SX Galleries', 'sx_photo_gallery' ),
             'parent_item_colon'   => __( 'Parent SX Photo Gallery', 'sx_photo_gallery' ),
             'all_items'           => __( 'All Photos', 'sx_photo_gallery' ),
             'view_item'           => __( 'View Photo', 'sx_photo_gallery' ),
@@ -99,18 +99,18 @@ class SXPG_gallery {
     function sxpg_create_gallery_taxonomies(){
 
         $labels = array(
-            'name'                       => _x( 'SX Photo Galleries', 'taxonomy general name', 'textdomain' ),
-            'singular_name'              => _x( 'SX Photo Gallery', 'taxonomy singular name', 'textdomain' ),
-            'search_items'               => __( 'Search galleries', 'textdomain' ),
-            'popular_items'              => __( 'Popular galleries', 'textdomain' ),
-            'all_items'                  => __( 'All galleries', 'textdomain' ),
-            'parent_item'                => __( 'Parrent gallery', 'textdomain' ),
-            'parent_item_colon'          => __( 'Parrent gallery:', 'textdomain' ),
-            'edit_item'                  => __( 'Edit gallery', 'textdomain' ),
-            'update_item'                => __( 'Update gallery', 'textdomain' ),
-            'add_new_item'               => __( 'Add New gallery', 'textdomain' ),
-            'new_item_name'              => __( 'New gallery Name', 'textdomain' ),
-            'menu_name'                  => __( 'All SX Photo Galleries', 'textdomain' ),
+            'name'                       => _x( 'SX Galleries', 'taxonomy general name', 'sx_photo_gallery' ),
+            'singular_name'              => _x( 'SX Gallery', 'taxonomy singular name', 'sx_photo_gallery' ),
+            'search_items'               => __( 'Search galleries', 'sx_photo_gallery' ),
+            'popular_items'              => __( 'Popular galleries', 'sx_photo_gallery' ),
+            'all_items'                  => __( 'All galleries', 'sx_photo_gallery' ),
+            'parent_item'                => __( 'Parrent gallery', 'sx_photo_gallery' ),
+            'parent_item_colon'          => __( 'Parrent gallery:', 'sx_photo_gallery' ),
+            'edit_item'                  => __( 'Edit gallery', 'sx_photo_gallery' ),
+            'update_item'                => __( 'Update gallery', 'sx_photo_gallery' ),
+            'add_new_item'               => __( 'Add New gallery', 'sx_photo_gallery' ),
+            'new_item_name'              => __( 'New gallery Name', 'sx_photo_gallery' ),
+            'menu_name'                  => __( 'All SX Galleries', 'sx_photo_gallery' ),
         );
 
         $args = array(
@@ -156,7 +156,7 @@ class SXPG_gallery {
 
     /**
      * Allow to filter photos by galleries
-     * 
+     *
      * @param $post_type
      */
     public function sxpg_filter_by_galleries( $post_type ) {
