@@ -39,9 +39,9 @@ class SXPG_gallery {
 
         // Set UI labels for Custom Post Type
         $labels = array(
-            'name'                => _x( 'SX Photo Galleries', 'Post Type General Name', 'sx_photo_gallery' ),
+            'name'                => _x( 'SX Photo Gallery', 'Post Type General Name', 'sx_photo_gallery' ),
             'singular_name'       => _x( 'SX Photo Gallery', 'Post Type Singular Name', 'sx_photo_gallery' ),
-            'menu_name'           => __( 'SX Photo Galleries', 'sx_photo_gallery' ),
+            'menu_name'           => __( 'SX Photo Gallery', 'sx_photo_gallery' ),
             'parent_item_colon'   => __( 'Parent SX Photo Gallery', 'sx_photo_gallery' ),
             'all_items'           => __( 'All Photos', 'sx_photo_gallery' ),
             'view_item'           => __( 'View Photo', 'sx_photo_gallery' ),
@@ -54,23 +54,26 @@ class SXPG_gallery {
             'not_found_in_trash'  => __( 'Not found in Trash', 'sx_photo_gallery' ),
         );
 
+        $supports = array(
+            'title',
+//            'editor',
+            'author',
+            'thumbnail',
+//            'excerpt',
+//            'trackbacks',
+            'custom-fields',
+//            'comments',
+//            'revisions',
+//            'page-attributes',
+//            'post-formats',
+        );
+
         // Set other options for Custom Post Type
         $args = array(
             'description'         => __( 'Inline photo gallery', 'sx_photo_gallery' ),
+            'menu_icon'           => plugins_url( 'sx_photo_gallery/assets/images/sx_photo_gallery.png' ),
             'labels'              => $labels,
-            'supports'            => array(
-                'title',
-                'editor',
-                'author',
-                'thumbnail',
-                'excerpt',
-                'trackbacks',
-                'custom-fields',
-                'comments',
-                'revisions',
-                'page-attributes',
-                'post-formats',
-            ),
+            'supports'            => $supports,
             'taxonomies'          => array(),
             'hierarchical'        => false,
             'public'              => true,
@@ -108,7 +111,7 @@ class SXPG_gallery {
             'update_item'                => __( 'Update gallery', 'textdomain' ),
             'add_new_item'               => __( 'Add New gallery', 'textdomain' ),
             'new_item_name'              => __( 'New gallery Name', 'textdomain' ),
-            'menu_name'                  => __( 'All SX Photo Galleries', 'textdomain' ),
+            'menu_name'                  => __( 'Manage SX Photo Galleries', 'textdomain' ),
         );
 
         $args = array(
