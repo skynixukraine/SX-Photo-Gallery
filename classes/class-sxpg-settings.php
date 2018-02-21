@@ -23,14 +23,12 @@ class SXPG_settings {
     }
 
     /**
-     * Add new pages to admin menu
+     * Add admin menu item
      */
-    public function sxpg_options_page() {
-        // Add settigns subpage to SX Photo Gallery
-        add_submenu_page(
-            "skynix_photo_gallery",
-            "SX Photo Gallery Settings",
-            "Settings",
+    public function sxpg_add_settings_page(){
+        add_options_page(
+            "SX Photo Gallery",
+            "SX Photo Gallery",
             "manage_options",
             "sxpg-settings.php",
             array( $this, 'sxpg_settings_page_content' )
@@ -52,17 +50,23 @@ class SXPG_settings {
         ?>
         <div class="wrap">
             <h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
+            <hr>
+            <p>Feel free to <a href="https://skynix.company/wordpress-plugin-development">contact us</a> if you need any kind of support</p>
+            <hr>
             <form action="options.php" method="post">
-                <label for="<?php echo $this->skin; ?>" >SX Photo Gallery Skin</label><br/>
-                <select class="sxpg-select" id="<?php echo $this->skin; ?>" name="<?php echo $this->skin; ?>">
-                    <?php
-                        foreach ( $skins as $skin ){
-                            $selected = ( ( $option == $skin ) ) ? "selected" : "";
-                            echo '<option ' . $selected . ' value="' . $skin . '">' . $skin . '</option>';
-                        }
-                    ?>
-                </select>
-
+                <table>
+                    <tr>
+                        <td><label for="<?php echo $this->skin; ?>" >Choose a Skin: </label></td>
+                        <td><select class="sxpg-select" id="<?php echo $this->skin; ?>" name="<?php echo $this->skin; ?>">
+                            <?php
+                                foreach ( $skins as $skin ){
+                                    $selected = ( ( $option == $skin ) ) ? "selected" : "";
+                                    echo '<option ' . $selected . ' value="' . $skin . '">' . $skin . '</option>';
+                                }
+                            ?>
+                        </select></td>
+                    </tr>
+                </table>
                 <?php
                 // output security fields for the registered setting "sxpg"
                 settings_fields( 'sxpg-settings' );
