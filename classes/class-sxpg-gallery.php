@@ -7,6 +7,7 @@ class SXPG_gallery {
 
     public $taxonomy   = 'sx_gallery_names';
     public $post_type  = 'sx_photo_galleries';
+    public $textdomain = 'sx_photo_gallery';
     
     public function __construct() {
 
@@ -18,7 +19,7 @@ class SXPG_gallery {
         // Register custom taxonomy that will serve as gallery
         add_action( 'init', array( $this, 'sxpg_create_gallery_taxonomies' ), 0);
         // Add columns to gallery posts
-        add_action('manage_posts_custom_column', array( $this, 'sxpg_custom_columns' ) );
+        add_action( 'manage_posts_custom_column', array( $this, 'sxpg_custom_columns' ) );
 
         // Add thumbnail images to preview column
         if ( !empty( $_REQUEST['post_type'] ) && $_REQUEST['post_type'] == $this->post_type ) {
@@ -39,19 +40,19 @@ class SXPG_gallery {
 
         // Set UI labels for Custom Post Type
         $labels = array(
-            'name'                => _x( 'SX Photo Gallery', 'Post Type General Name', 'sx_photo_gallery' ),
-            'singular_name'       => _x( 'SX Photo Gallery', 'Post Type Singular Name', 'sx_photo_gallery' ),
-            'menu_name'           => __( 'SX Photo Gallery', 'sx_photo_gallery' ),
-            'parent_item_colon'   => __( 'Parent SX Photo Gallery', 'sx_photo_gallery' ),
-            'all_items'           => __( 'All Photos', 'sx_photo_gallery' ),
-            'view_item'           => __( 'View Photo', 'sx_photo_gallery' ),
-            'add_new_item'        => __( 'Add New Photo', 'sx_photo_gallery' ),
-            'add_new'             => __( 'Add New Photo', 'sx_photo_gallery' ),
-            'edit_item'           => __( 'Edit Photo', 'sx_photo_gallery' ),
-            'update_item'         => __( 'Update Photo', 'sx_photo_gallery' ),
-            'search_items'        => __( 'Search Photos', 'sx_photo_gallery' ),
-            'not_found'           => __( 'Not Found', 'sx_photo_gallery' ),
-            'not_found_in_trash'  => __( 'Not found in Trash', 'sx_photo_gallery' ),
+            'name'                => _x( 'SX Photo Gallery', 'Post Type General Name', $this->textdomain ),
+            'singular_name'       => _x( 'SX Photo Gallery', 'Post Type Singular Name', $this->textdomain ),
+            'menu_name'           => __( 'SX Photo Gallery', $this->textdomain ),
+            'parent_item_colon'   => __( 'Parent SX Photo Gallery', $this->textdomain ),
+            'all_items'           => __( 'All Photos', $this->textdomain ),
+            'view_item'           => __( 'View Photo', $this->textdomain ),
+            'add_new_item'        => __( 'Add New Photo', $this->textdomain ),
+            'add_new'             => __( 'Add New Photo', $this->textdomain ),
+            'edit_item'           => __( 'Edit Photo', $this->textdomain ),
+            'update_item'         => __( 'Update Photo', $this->textdomain ),
+            'search_items'        => __( 'Search Photos', $this->textdomain ),
+            'not_found'           => __( 'Not Found', $this->textdomain ),
+            'not_found_in_trash'  => __( 'Not found in Trash', $this->textdomain ),
         );
 
         $supports = array(
@@ -70,7 +71,7 @@ class SXPG_gallery {
 
         // Set other options for Custom Post Type
         $args = array(
-            'description'         => __( 'Inline photo gallery', 'sx_photo_gallery' ),
+            'description'         => __( 'Inline photo gallery', $this->textdomain ),
             'menu_icon'           => plugins_url( 'sx_photo_gallery/assets/images/sx_photo_gallery.png' ),
             'labels'              => $labels,
             'supports'            => $supports,
@@ -100,18 +101,18 @@ class SXPG_gallery {
     function sxpg_create_gallery_taxonomies(){
 
         $labels = array(
-            'name'                       => _x( 'SX Photo Galleries', 'taxonomy general name', 'textdomain' ),
-            'singular_name'              => _x( 'SX Photo Gallery', 'taxonomy singular name', 'textdomain' ),
-            'search_items'               => __( 'Search galleries', 'textdomain' ),
-            'popular_items'              => __( 'Popular galleries', 'textdomain' ),
-            'all_items'                  => __( 'All galleries', 'textdomain' ),
-            'parent_item'                => __( 'Parrent gallery', 'textdomain' ),
-            'parent_item_colon'          => __( 'Parrent gallery:', 'textdomain' ),
-            'edit_item'                  => __( 'Edit gallery', 'textdomain' ),
-            'update_item'                => __( 'Update gallery', 'textdomain' ),
-            'add_new_item'               => __( 'Add New gallery', 'textdomain' ),
-            'new_item_name'              => __( 'New gallery Name', 'textdomain' ),
-            'menu_name'                  => __( 'Manage SX Photo Galleries', 'textdomain' ),
+            'name'                       => _x( 'SX Photo Galleries', 'taxonomy general name', $this->textdomain ),
+            'singular_name'              => _x( 'SX Photo Gallery', 'taxonomy singular name', $this->textdomain ),
+            'search_items'               => __( 'Search galleries', $this->textdomain ),
+            'popular_items'              => __( 'Popular galleries', $this->textdomain ),
+            'all_items'                  => __( 'All galleries', $this->textdomain ),
+            'parent_item'                => __( 'Parrent gallery', $this->textdomain ),
+            'parent_item_colon'          => __( 'Parrent gallery:', $this->textdomain ),
+            'edit_item'                  => __( 'Edit gallery', $this->textdomain ),
+            'update_item'                => __( 'Update gallery', $this->textdomain ),
+            'add_new_item'               => __( 'Add New gallery', $this->textdomain ),
+            'new_item_name'              => __( 'New gallery Name', $this->textdomain ),
+            'menu_name'                  => __( 'Manage SX Photo Galleries', $this->textdomain ),
         );
 
         $args = array(
@@ -147,7 +148,7 @@ class SXPG_gallery {
      */
     public function sxpg_add_post_thumbnail_column( $cols ){
         $add_cols = array(
-            'sxpg_post_thumb' => __('Photo preview')
+            'sxpg_post_thumb' => __('Photo preview', $this->textdomain )
         );
         // Insert new column right after checkbox ( kind of array_splice for assoc arrays )
         $cols = array_slice( $cols, 0, 1, true ) + $add_cols + array_slice( $cols, 1, NULL, true );
@@ -174,7 +175,7 @@ class SXPG_gallery {
 
         // Display filter HTML
         echo "<select name='{$this->taxonomy}' id='{$this->taxonomy}' class='postform'>";
-        echo '<option value="">' . sprintf( esc_html__( 'Show All %s', 'text_domain' ), $taxonomy_obj->labels->name ) . '</option>';
+        echo '<option value="">' . sprintf( esc_html__( 'Show All %s', $this->textdomain ), $taxonomy_obj->labels->name ) . '</option>';
         foreach ( $terms as $term ) {
             printf(
                 '<option value="%1$s" %2$s>%3$s (%4$s)</option>',
