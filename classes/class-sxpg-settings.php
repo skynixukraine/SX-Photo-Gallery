@@ -92,6 +92,9 @@ class SXPG_settings {
         <?php
     }
 
+    /**
+     * Show notice if settings where updated
+     */
     public function sxpg_options_saved__success() {
         $notice = '';
 
