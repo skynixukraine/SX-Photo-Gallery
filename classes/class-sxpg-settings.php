@@ -15,6 +15,15 @@ class SXPG_settings {
         $this->plugin_url    = plugin_dir_url( __DIR__ ) . 'templates/';
     }
 
+    public function init() {
+        // Register settings options
+        add_action( 'admin_init', array( $this, 'sxpg_settings_fields' ) );
+        // Create settings subpage
+        add_action( 'admin_menu', array( $this, 'sxpg_add_settings_page' ) );
+        // Load SX Photo Gallery selected skin template
+        add_action( 'wp_enqueue_scripts', array( $this, 'sxpg_load_template' ) );
+    }
+
     /**
      * Register new settings
      */
