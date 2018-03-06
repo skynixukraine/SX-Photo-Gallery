@@ -10,9 +10,21 @@ class SXPG_settings {
     public $default_template = "Skynix Dark";
     public $plugin_url;
 
-    public function __construct() {
+    public function __construct( $gallery ) {
+        $this->gallery       = $gallery;
         $this->template_path = plugin_dir_path( __DIR__ ) . 'templates/';
         $this->plugin_url    = plugin_dir_url( __DIR__ ) . 'templates/';
+    }
+
+    public function init() {
+        // Register settings options
+        add_action( 'admin_init', array( $this, 'sxpg_settings_fields' ) );
+        // Create settings subpage
+        add_action( 'admin_menu', array( $this, 'sxpg_add_settings_page' ) );
+        // Load SX Photo Gallery selected skin template
+        add_action( 'wp_enqueue_scripts', array( $this, 'sxpg_load_template' ) );
+        // Show notice when settings are saved
+        add_action( 'admin_notices', array( $this, 'sxpg_options_saved__success' ) );
     }
 
     /**
@@ -23,14 +35,13 @@ class SXPG_settings {
     }
 
     /**
-     * Add new pages to admin menu
+     * Add admin menu item
      */
-    public function sxpg_options_page() {
-        // Add settigns subpage to SX Photo Gallery
+    public function sxpg_add_settings_page(){
         add_submenu_page(
-            "skynix_photo_gallery",
-            "SX Photo Gallery Settings",
-            "Settings",
+            "edit.php?post_type=" . $this->gallery->post_type,
+            __( "SX Photo Gallery Settings", $this->gallery->textdomain ),
+            __( "Settings", $this->gallery->textdomain ),
             "manage_options",
             "sxpg-settings.php",
             array( $this, 'sxpg_settings_page_content' )
@@ -51,28 +62,49 @@ class SXPG_settings {
 
         ?>
         <div class="wrap">
-            <h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
+            <h1><?php echo esc_html( get_admin_page_title(), $this->gallery->textdomain ); ?></h1>
+            <hr>
+            <p><?php echo __( 'Feel free to', $this->gallery->textdomain ); ?> <a href="https://skynix.company/wordpress-plugin-development"><?php echo __( 'contact us', $this->gallery->textdomain ); ?></a> <?php echo __( 'if you need any kind of support', $this->gallery->textdomain ); ?></p>
+            <hr>
             <form action="options.php" method="post">
-                <label for="<?php echo $this->skin; ?>" >SX Photo Gallery Skin</label><br/>
-                <select class="sxpg-select" id="<?php echo $this->skin; ?>" name="<?php echo $this->skin; ?>">
-                    <?php
-                        foreach ( $skins as $skin ){
-                            $selected = ( ( $option == $skin ) ) ? "selected" : "";
-                            echo '<option ' . $selected . ' value="' . $skin . '">' . $skin . '</option>';
-                        }
-                    ?>
-                </select>
-
+                <table>
+                    <tr>
+                        <td><label for="<?php echo $this->skin; ?>" ><?php _e( 'Choose a Skin', $this->gallery->textdomain ); ?>: </label></td>
+                        <td><select class="sxpg-select" id="<?php echo $this->skin; ?>" name="<?php echo $this->skin; ?>">
+                            <?php
+                                foreach ( $skins as $skin ){
+                                    $selected = ( ( $option == $skin ) ) ? "selected" : "";
+                                    echo '<option ' . $selected . ' value="' . $skin . '">' . $skin . '</option>';
+                                }
+                            ?>
+                        </select></td>
+                    </tr>
+                </table>
                 <?php
                 // output security fields for the registered setting "sxpg"
                 settings_fields( 'sxpg-settings' );
 
                 // output save settings button
-                submit_button( 'Save' );
+                submit_button( __( 'Save', $this->gallery->textdomain ) );
                 ?>
             </form>
         </div>
         <?php
+    }
+
+    /**
+     * Show notice if settings where updated
+     */
+    public function sxpg_options_saved__success() {
+        $notice = '';
+
+        if ( !empty( $_REQUEST["settings-updated"] ) && $_REQUEST["settings-updated"] ) {
+            $notice .= '<div class="notice notice-success is-dismissible">';
+            $notice .= '<p>' . __( 'Settigns Saved', $this->gallery->textdomain ) . '</p>';
+            $notice .= '</div>';
+        }
+
+        echo $notice;
     }
 
     /**
@@ -100,7 +132,8 @@ class SXPG_settings {
         if ( empty( $skin ) ) {
             $skin = $this->default_template;
         }
-        wp_enqueue_style( "sxpg_template", $this->plugin_url . $skin . '/template.css' );
+        wp_enqueue_style( "sxpg_template_css", $this->plugin_url . $skin . '/sx-photo-gallery.css' );
+        wp_enqueue_script( "sxpg_template_js", $this->plugin_url . $skin . '/sx-photo-gallery.js', array('jquery'), '1.0', true );
     }
 
 }
