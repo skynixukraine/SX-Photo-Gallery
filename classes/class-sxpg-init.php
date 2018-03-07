@@ -7,7 +7,7 @@ class SXPG_init {
 
     public function __construct() {
         $this->gallery  = new SXPG_gallery();
-        $this->settings = new SXPG_settings( $this->gallery );
+        $this->settings = new SXPG_settings();
     }
 
     public function init() {
