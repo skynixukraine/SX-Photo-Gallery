@@ -7,11 +7,10 @@ class SXPG_settings {
 
     public $skin = "sxpg-skin";
     public $template_path;
-    public $default_template = "Skynix Dark";
+    public $default_template = "SkynixDark";
     public $plugin_url;
 
-    public function __construct( $gallery ) {
-        $this->gallery       = $gallery;
+    public function __construct() {
         $this->template_path = plugin_dir_path( __DIR__ ) . 'templates/';
         $this->plugin_url    = plugin_dir_url( __DIR__ ) . 'templates/';
     }
@@ -39,9 +38,9 @@ class SXPG_settings {
      */
     public function sxpg_add_settings_page(){
         add_submenu_page(
-            "edit.php?post_type=" . $this->gallery->post_type,
-            __( "SX Photo Gallery Settings", $this->gallery->textdomain ),
-            __( "Settings", $this->gallery->textdomain ),
+            "edit.php?post_type=" . SXPG_gallery::$post_type,
+            __( "SX Photo Gallery Settings", SXPG_gallery::$textdomain ),
+            __( "Settings", SXPG_gallery::$textdomain ),
             "manage_options",
             "sxpg-settings.php",
             array( $this, 'sxpg_settings_page_content' )
@@ -62,14 +61,14 @@ class SXPG_settings {
 
         ?>
         <div class="wrap">
-            <h1><?php echo esc_html( get_admin_page_title(), $this->gallery->textdomain ); ?></h1>
+            <h1><?php echo esc_html( get_admin_page_title(), SXPG_gallery::$textdomain ); ?></h1>
             <hr>
-            <p><?php echo __( 'Feel free to', $this->gallery->textdomain ); ?> <a href="https://skynix.company/wordpress-plugin-development"><?php echo __( 'contact us', $this->gallery->textdomain ); ?></a> <?php echo __( 'if you need any kind of support', $this->gallery->textdomain ); ?></p>
+            <p><?php echo __( 'Feel free to', SXPG_gallery::$textdomain ); ?> <a href="https://skynix.company/wordpress-plugin-development"><?php echo __( 'contact us', SXPG_gallery::$textdomain ); ?></a> <?php echo __( 'if you need any kind of support', SXPG_gallery::$textdomain ); ?></p>
             <hr>
             <form action="options.php" method="post">
                 <table>
                     <tr>
-                        <td><label for="<?php echo $this->skin; ?>" ><?php _e( 'Choose a Skin', $this->gallery->textdomain ); ?>: </label></td>
+                        <td><label for="<?php echo $this->skin; ?>" ><?php _e( 'Choose a Skin', SXPG_gallery::$textdomain ); ?>: </label></td>
                         <td><select class="sxpg-select" id="<?php echo $this->skin; ?>" name="<?php echo $this->skin; ?>">
                             <?php
                                 foreach ( $skins as $skin ){
@@ -85,7 +84,7 @@ class SXPG_settings {
                 settings_fields( 'sxpg-settings' );
 
                 // output save settings button
-                submit_button( __( 'Save', $this->gallery->textdomain ) );
+                submit_button( __( 'Save', SXPG_gallery::$textdomain ) );
                 ?>
             </form>
         </div>
@@ -100,7 +99,7 @@ class SXPG_settings {
 
         if ( !empty( $_REQUEST["settings-updated"] ) && $_REQUEST["settings-updated"] ) {
             $notice .= '<div class="notice notice-success is-dismissible">';
-            $notice .= '<p>' . __( 'Settigns Saved', $this->gallery->textdomain ) . '</p>';
+            $notice .= '<p>' . __( 'Settigns Saved', SXPG_gallery::$textdomain ) . '</p>';
             $notice .= '</div>';
         }
 
