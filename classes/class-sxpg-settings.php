@@ -5,9 +5,9 @@
 
 class SXPG_settings {
 
-    public $skin = "sxpg-skin";
+    public static $skin             = "sxpg-skin";
+    public static $default_template = "SkynixDark";
     public $template_path;
-    public $default_template = "SkynixDark";
     public $plugin_url;
 
     public function __construct() {
@@ -30,7 +30,7 @@ class SXPG_settings {
      * Register new settings
      */
     public function sxpg_settings_fields(){
-        register_setting( 'sxpg-settings', $this->skin );
+        register_setting( 'sxpg-settings', self::$skin );
     }
 
     /**
@@ -56,7 +56,7 @@ class SXPG_settings {
             return;
         }
 
-        $option = get_option( $this->skin );
+        $option = get_option( self::$skin );
         $skins  = $this->sxpg_get_available_skins();
 
         ?>
@@ -68,8 +68,8 @@ class SXPG_settings {
             <form action="options.php" method="post">
                 <table>
                     <tr>
-                        <td><label for="<?php echo $this->skin; ?>" ><?php _e( 'Choose a Skin', SXPG_gallery::$textdomain ); ?>: </label></td>
-                        <td><select class="sxpg-select" id="<?php echo $this->skin; ?>" name="<?php echo $this->skin; ?>">
+                        <td><label for="<?php echo self::$skin; ?>" ><?php _e( 'Choose a Skin', SXPG_gallery::$textdomain ); ?>: </label></td>
+                        <td><select class="sxpg-select" id="<?php echo self::$skin; ?>" name="<?php echo self::$skin; ?>">
                             <?php
                                 foreach ( $skins as $skin ){
                                     $selected = ( ( $option == $skin ) ) ? "selected" : "";
@@ -127,9 +127,9 @@ class SXPG_settings {
      * Enqueue the selected skin template
      */
     public function sxpg_load_template(){
-        $skin = get_option( $this->skin );
+        $skin = get_option( self::$skin );
         if ( empty( $skin ) ) {
-            $skin = $this->default_template;
+            $skin = self::$default_template;
         }
         wp_enqueue_style( "sxpg_template_css", $this->plugin_url . $skin . '/sx-photo-gallery.css' );
         wp_enqueue_script( "sxpg_template_js", $this->plugin_url . $skin . '/sx-photo-gallery.js', array('jquery'), '1.0', true );

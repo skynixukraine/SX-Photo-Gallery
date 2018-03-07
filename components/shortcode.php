@@ -36,7 +36,7 @@
 
                     <select id="sxpg_gallery_name" name="sxpg_gallery_name">
                         <option value="" selected>Please select a gallery</option>
-                        <?php echo SXPG_gallery::sxpg_output_galleries(); ?>
+                        <?php echo SXPG_gallery::sxpg_output_galleries_names(); ?>
                     </select>
 
                     <a class="button-primary" id="sxpg_insert_shortcode" href="#sxpg-insert-shortcode"><?php _e( 'Insert', SXPG_gallery::$textdomain ); ?></a>
