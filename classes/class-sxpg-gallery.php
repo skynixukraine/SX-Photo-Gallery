@@ -45,7 +45,7 @@ class SXPG_gallery {
 
         add_action( 'admin_footer', array( $this, 'mce_popup' ) );
 
-        echo '<a href="#TB_inline?inlineId=sxpg_shortcode_form" class="thickbox button" id="add_sxpg_button" title="Insert SX Photo Gallery"><img style="padding: 0px 6px 0px 0px; margin: -3px 0px 0px;" src="' . plugin_dir_url( __DIR__ ) . 'assets/images/sx_photo_gallery.ico" alt="' . __( 'Insert SX Photo Gallery' , self::$textdomain ) . '" />' . __( 'Insert SX Photo Gallery' , self::$textdomain ) . '</a>';
+        echo '<a href="#TB_inline?width=640&inlineId=sxpg_shortcode_form" class="thickbox button" id="add_sxpg_button" title="Insert SX Photo Gallery"><img style="padding: 0px 6px 0px 0px; margin: -3px 0px 0px;" src="' . plugin_dir_url( __DIR__ ) . 'assets/images/sx_photo_gallery.ico" alt="' . __( 'Insert SX Photo Gallery' , self::$textdomain ) . '" />' . __( 'Insert SX Photo Gallery' , self::$textdomain ) . '</a>';
     }
 
     /**
