@@ -45,7 +45,7 @@ class SXPG_gallery {
 
         add_action( 'admin_footer', array( $this, 'mce_popup' ) );
 
-        echo '<a href="#TB_inline?inlineId=sxpg_shortcode_form&width=700&height=200" class="thickbox button" id="add_sxpg_button" title="Insert SX Photo Gallery"><img style="padding: 0px 6px 0px 0px; margin: -3px 0px 0px;" src="' . plugin_dir_url( __DIR__ ) . 'assets/images/sx_photo_gallery.ico" alt="' . __( 'Insert SX Photo Gallery' , self::$textdomain ) . '" />' . __( 'Insert SX Photo Gallery' , self::$textdomain ) . '</a>';
+        echo '<a href="#TB_inline?width=640&inlineId=sxpg_shortcode_form" class="thickbox button" id="add_sxpg_button" title="Insert SX Photo Gallery"><img style="padding: 0px 6px 0px 0px; margin: -3px 0px 0px;" src="' . plugin_dir_url( __DIR__ ) . 'assets/images/sx_photo_gallery.ico" alt="' . __( 'Insert SX Photo Gallery' , self::$textdomain ) . '" />' . __( 'Insert SX Photo Gallery' , self::$textdomain ) . '</a>';
     }
 
     /**
@@ -219,7 +219,7 @@ class SXPG_gallery {
      * @return string
      */
     public function sxpg_output_gallery( $gallery_name ){
-        $response = '<div class="sxpg-gallery ' . $gallery_name[0] . '" >';
+        $response = '';
         $args = array(
             'post_type' => self::$post_type,
             'tax_query' => array(
@@ -231,16 +231,37 @@ class SXPG_gallery {
             ),
         );
 
+        $category = get_term_by( 'slug', $gallery_name[0], self::$taxonomy );
+        $skin     = get_option( SXPG_settings::$skin );
+        if ( empty( $skin ) ) {
+            $skin = SXPG_settings::$default_template;
+        }
+        $skin = sanitize_title( $skin );
+
         $gallery = new WP_Query( $args );
+
         if ( $gallery->have_posts() ) {
+            $response .= '<section class="sx-photo-gallery sx-photo-gallery--' . $skin . ' sx-photo-gallery--' . $gallery_name[0] . '">';
+            $response .= '<h1 class="sx-photo-gallery__title">' . $category->name . '</h1>';
+            $response .= '<ul class="sx-photo-gallery-photos sx-photo-gallery--' . $skin . ' sx-photo-gallery-photos--' . $gallery_name[0] . '">';
+
             while ( $gallery->have_posts() ) {
                 $gallery->the_post();
                 $attachment_id = get_post_thumbnail_id( $gallery->post->ID );
-                $response .= '<img src="' . wp_get_attachment_image_src( $attachment_id, 'full' )[0] . '" alt="' . $gallery->post->post_title . '" />';
+
+                $response .= '<li class="sx-photo-gallery-photos__photo-container">';
+                $response .= '<img class="sx-photo-gallery-photos__photo" src="' . wp_get_attachment_image_src( $attachment_id, 'full' )[0] . '" alt="' . $gallery->post->post_title . '" data-url="' . $gallery->post->post_name . '" />';
+                $response .= '</li>';
             }
+
+            $response .= '</ul>';
+            $response .= '<div class="sx-photo-gallery__controlls"></div>';
+            $response .= '</section>';
+        } else {
+            $response = '<section class="sx-photo-gallery sx-photo-gallery--' . $skin . ' sx-photo-gallery--' . $gallery_name[0] . ' sx-photo-gallery--not-found"><h1>' . $category->name .'</h1> is empty or does not exist</section>';
         }
 
-        return $response . '</div>';
+        return $response;
     }
 
     /**
@@ -248,7 +269,7 @@ class SXPG_gallery {
      *
      * @return string
      */
-    public static function sxpg_output_galleries(){
+    public static function sxpg_output_galleries_names(){
         $options      = '';
         $sx_galleries = get_terms(
             array(
