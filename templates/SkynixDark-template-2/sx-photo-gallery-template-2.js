@@ -3,12 +3,18 @@ function SXgallery() {
         timerId,
         amount,
         indexOfcurrent,
+        indexOfstart,
+        indexOfpenult,
         i, l, k;
 
     function hideSlides() {
         slides.not('.sx-photo-gallery-photos__photo-container--0,' +
             '.sx-photo-gallery-photos__photo-container--1,' +
-            '.sx-photo-gallery-photos__photo-container--2').hide();
+            '.sx-photo-gallery-photos__photo-container--2,' +
+            '.sx-photo-gallery-photos__photo-container--3,' +
+            '.sx-photo-gallery-photos__photo-container--4,' +
+            '.sx-photo-gallery-photos__photo-container--5,' +
+            '.sx-photo-gallery-photos__photo-container--6').hide();
     }
 
     function autoScroll() {
@@ -24,25 +30,28 @@ function SXgallery() {
 
         slides = $('.sx-photo-gallery-photos__photo-container');
 
+        slides.on('click', function () {
+            switchSlide(this);
+        });
 
         amount = slides.length;
 
         hideSlides();
 
-        if (amount < 4) {
+        if (amount < 8) {
             slides.css({'transition': 'opacity .4s  ease-in-out'});
-            for (i = 0; i < 3; i++) {
+            for (i = 0; i < 7; i++) {
                 slides.eq(i).show()
                     .addClass('sx-photo-gallery-photos__photo-container sx-photo-gallery-photos__photo-container--' + i + '');
             }
-            if (amount < 3) {
+            if (amount < 5) {
                 slides.removeClass();
-                for (i = 0; i < 3; i++) {
-                    slides.eq(i).show().addClass('sx-photo-gallery-photos__photo-container sx-photo-gallery-photos__photo-container--' + (1 + i) + '');
+                for (i = 0; i < amount; i++) {
+                    slides.eq(i).show().addClass('sx-photo-gallery-photos__photo-container sx-photo-gallery-photos__photo-container--' + (3 + i) + '');
                 }
             }
         } else {
-            for (i = 0; i < 3; i++) {
+            for (i = 0; i < 7; i++) {
                 slides.eq(i).show().addClass('sx-photo-gallery-photos__photo-container--' + i + '');
             }
         }
@@ -60,34 +69,32 @@ function SXgallery() {
             $('.sx-photo-gallery').on('mouseleave', function () {
                 autoScroll();
             });
-
-            slides.on('click', function () {
-                switchSlide(this);
-            });
         }
     }
 
 
     function switchSlide(param) {
-        indexOfmain = $('.sx-photo-gallery-photos__photo-container--1').index();
+        indexOfstart = $('.sx-photo-gallery-photos__photo-container--1').index();
+        indexOfpenult = $('.sx-photo-gallery-photos__photo-container--5').index();
+        indexOfmain = $('.sx-photo-gallery-photos__photo-container--3').index();
         indexOfcurrent = ($(param).index());
         classOfCurrent = $(param).attr('class');
 
         if ($(param).is('.sx-photo-gallery-photos__photo-container')) {
-            $('.sx-photo-gallery-photos__photo-container--1').removeClass().addClass(classOfCurrent);
+            $('.sx-photo-gallery-photos__photo-container--3').removeClass().addClass(classOfCurrent);
             slides.eq(indexOfcurrent).removeClass()
-                .addClass('sx-photo-gallery-photos__photo-container sx-photo-gallery-photos__photo-container--1');
-        } else if (param === 'right') {
+                .addClass('sx-photo-gallery-photos__photo-container sx-photo-gallery-photos__photo-container--3');
+        } else if (param === 'right' && amount > 4) {
             slides.removeClass();
 
-            for (i = 0; i < 3; i++) {
+            for (i = 0; i < 7; i++) {
                 l = 0;
                 k = 0;
 
-                slides.eq(indexOfmain + i).show()
+                slides.eq(indexOfstart + i).show()
                     .addClass('sx-photo-gallery-photos__photo-container sx-photo-gallery-photos__photo-container--' + i + '');
-                if (indexOfmain === (amount - (3 - i))) {
-                    for (k = (3 - i); k < 3; k++) {
+                if (indexOfstart === (amount - (7 - i))) {
+                    for (k = (7 - i); k < 7; k++) {
                         slides.eq(l).show()
                             .addClass('sx-photo-gallery-photos__photo-container sx-photo-gallery-photos__photo-container--' + k + '');
                         l += 1;
@@ -97,12 +104,12 @@ function SXgallery() {
 
             hideSlides();
 
-        } else if (param === 'left') {
+        } else if (param === 'left' && amount > 4) {
             k = 0;
             slides.removeClass();
 
-            for (i = 2; i >= 0; i--) {
-                slides.eq(indexOfmain - k).show()
+            for (i = 6; i >= 0; i--) {
+                slides.eq(indexOfpenult - k).show()
                     .addClass('sx-photo-gallery-photos__photo-container sx-photo-gallery-photos__photo-container--' + i + '');
                 k += 1;
             }

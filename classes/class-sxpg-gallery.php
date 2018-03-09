@@ -255,7 +255,18 @@ class SXPG_gallery {
             }
 
             $response .= '</ul>';
-            $response .= '<div class="sx-photo-gallery__controlls"></div>';
+            $response .= '<div class="sx-photo-gallery__controlls">';
+            $response .= '<div class="sx-photo-gallery__controlls-arrow sx-photo-gallery__controlls-arrow--left" data-param="left"></div>';
+            $response .= '<a class="sx-photo-gallery__share">';
+            $response .= '<div class="sx-photo-gallery__share-facebook"></div>';
+            $response .= '<a class="sx-photo-gallery__share">';
+            $response .= '<div class="sx-photo-gallery__share-twitter"></div>';
+            $response .= '</a>';
+            $response .= '<a class="sx-photo-gallery__share">';
+            $response .= '<div class="sx-photo-gallery__share-linkedin"></div>';
+            $response .= '</a>';
+            $response .= '<div class="sx-photo-gallery__controlls-arrow sx-photo-gallery__controlls-arrow--right" data-param="right"></div>';
+            $response .= '</div>';
             $response .= '</section>';
         } else {
             $response = '<section class="sx-photo-gallery sx-photo-gallery--' . $skin . ' sx-photo-gallery--' . $gallery_name[0] . ' sx-photo-gallery--not-found"><h1>' . $category->name .'</h1> is empty or does not exist</section>';
