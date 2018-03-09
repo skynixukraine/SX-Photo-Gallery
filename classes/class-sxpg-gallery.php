@@ -5,9 +5,10 @@
 
 class SXPG_gallery {
 
-    public $taxonomy   = 'sx_gallery_names';
-    public $post_type  = 'sx_photo_galleries';
-
+    public static $taxonomy   = 'sx_gallery_names';
+    public static $post_type  = 'sx_photo_galleries';
+    public static $textdomain = 'sx_photo_gallery';
+    
     public function __construct() {
 
     }
@@ -18,10 +19,10 @@ class SXPG_gallery {
         // Register custom taxonomy that will serve as gallery
         add_action( 'init', array( $this, 'sxpg_create_gallery_taxonomies' ), 0);
         // Add columns to gallery posts
-        add_action('manage_posts_custom_column', array( $this, 'sxpg_custom_columns' ) );
+        add_action( 'manage_posts_custom_column', array( $this, 'sxpg_custom_columns' ) );
 
         // Add thumbnail images to preview column
-        if ( !empty( $_REQUEST['post_type'] ) && $_REQUEST['post_type'] == $this->post_type ) {
+        if ( !empty( $_REQUEST['post_type'] ) && $_REQUEST['post_type'] == self::$post_type ) {
             add_filter('manage_posts_columns', array( $this, 'sxpg_add_post_thumbnail_column' ), 5);
             add_filter('manage_pages_columns', array( $this, 'sxpg_add_post_thumbnail_column' ), 5);
             add_filter('manage_custom_post_columns', array( $this, 'sxpg_add_post_thumbnail_column' ), 5);
@@ -30,6 +31,28 @@ class SXPG_gallery {
         add_action( 'restrict_manage_posts', array( $this, 'sxpg_filter_by_galleries' ), 10, 2 );
 
         add_shortcode( 'SXPhotoGallery', array( $this, 'sxpg_output_gallery' ) );
+
+        // Add Media Bar button for Shortcode
+        add_action( 'media_buttons', array( $this, 'media_button' ), 12 );
+
+    }
+
+    /**
+     * Output media button for SX Photo Gallery shortcode
+     *
+     */
+    public function media_button () {
+
+        add_action( 'admin_footer', array( $this, 'mce_popup' ) );
+
+        echo '<a href="#TB_inline?width=640&inlineId=sxpg_shortcode_form" class="thickbox button" id="add_sxpg_button" title="Insert SX Photo Gallery"><img style="padding: 0px 6px 0px 0px; margin: -3px 0px 0px;" src="' . plugin_dir_url( __DIR__ ) . 'assets/images/sx_photo_gallery.ico" alt="' . __( 'Insert SX Photo Gallery' , self::$textdomain ) . '" />' . __( 'Insert SX Photo Gallery' , self::$textdomain ) . '</a>';
+    }
+
+    /**
+     * Output SX Photo Gallery shortcode popup window
+     */
+    public function mce_popup () {
+        require_once(  plugin_dir_path( __DIR__ ) . 'components/shortcode.php' );
     }
 
     /**
@@ -39,19 +62,19 @@ class SXPG_gallery {
 
         // Set UI labels for Custom Post Type
         $labels = array(
-            'name'                => _x( 'SX Photo Galleries', 'Post Type General Name', 'sx_photo_gallery' ),
-            'singular_name'       => _x( 'SX Photo Gallery', 'Post Type Singular Name', 'sx_photo_gallery' ),
-            'menu_name'           => __( 'SX Galleries', 'sx_photo_gallery' ),
-            'parent_item_colon'   => __( 'Parent SX Photo Gallery', 'sx_photo_gallery' ),
-            'all_items'           => __( 'All Photos', 'sx_photo_gallery' ),
-            'view_item'           => __( 'View Photo', 'sx_photo_gallery' ),
-            'add_new_item'        => __( 'Add New Photo', 'sx_photo_gallery' ),
-            'add_new'             => __( 'Add New Photo', 'sx_photo_gallery' ),
-            'edit_item'           => __( 'Edit Photo', 'sx_photo_gallery' ),
-            'update_item'         => __( 'Update Photo', 'sx_photo_gallery' ),
-            'search_items'        => __( 'Search Photos', 'sx_photo_gallery' ),
-            'not_found'           => __( 'Not Found', 'sx_photo_gallery' ),
-            'not_found_in_trash'  => __( 'Not found in Trash', 'sx_photo_gallery' ),
+            'name'                => _x( 'SX Photo Gallery', 'Post Type General Name', self::$textdomain ),
+            'singular_name'       => _x( 'SX Photo Gallery', 'Post Type Singular Name', self::$textdomain ),
+            'menu_name'           => __( 'SX Photo Gallery', self::$textdomain ),
+            'parent_item_colon'   => __( 'Parent SX Photo Gallery', self::$textdomain ),
+            'all_items'           => __( 'All Photos', self::$textdomain ),
+            'view_item'           => __( 'View Photo', self::$textdomain ),
+            'add_new_item'        => __( 'Add New Photo', self::$textdomain ),
+            'add_new'             => __( 'Add New Photo', self::$textdomain ),
+            'edit_item'           => __( 'Edit Photo', self::$textdomain ),
+            'update_item'         => __( 'Update Photo', self::$textdomain ),
+            'search_items'        => __( 'Search Photos', self::$textdomain ),
+            'not_found'           => __( 'Not Found', self::$textdomain ),
+            'not_found_in_trash'  => __( 'Not found in Trash', self::$textdomain ),
         );
 
         $supports = array(
@@ -70,7 +93,8 @@ class SXPG_gallery {
 
         // Set other options for Custom Post Type
         $args = array(
-            'description'         => __( 'Inline photo gallery', 'sx_photo_gallery' ),
+            'description'         => __( 'Inline photo gallery', self::$textdomain ),
+            'menu_icon'           => plugins_url( 'sx_photo_gallery/assets/images/sx_photo_gallery.png' ),
             'labels'              => $labels,
             'supports'            => $supports,
             'taxonomies'          => array(),
@@ -89,7 +113,7 @@ class SXPG_gallery {
         );
 
         // Registering your Custom Post Type
-        register_post_type( $this->post_type, $args );
+        register_post_type( self::$post_type, $args );
 
     }
 
@@ -99,18 +123,18 @@ class SXPG_gallery {
     function sxpg_create_gallery_taxonomies(){
 
         $labels = array(
-            'name'                       => _x( 'SX Galleries', 'taxonomy general name', 'sx_photo_gallery' ),
-            'singular_name'              => _x( 'SX Gallery', 'taxonomy singular name', 'sx_photo_gallery' ),
-            'search_items'               => __( 'Search galleries', 'sx_photo_gallery' ),
-            'popular_items'              => __( 'Popular galleries', 'sx_photo_gallery' ),
-            'all_items'                  => __( 'All galleries', 'sx_photo_gallery' ),
-            'parent_item'                => __( 'Parrent gallery', 'sx_photo_gallery' ),
-            'parent_item_colon'          => __( 'Parrent gallery:', 'sx_photo_gallery' ),
-            'edit_item'                  => __( 'Edit gallery', 'sx_photo_gallery' ),
-            'update_item'                => __( 'Update gallery', 'sx_photo_gallery' ),
-            'add_new_item'               => __( 'Add New gallery', 'sx_photo_gallery' ),
-            'new_item_name'              => __( 'New gallery Name', 'sx_photo_gallery' ),
-            'menu_name'                  => __( 'All SX Galleries', 'sx_photo_gallery' ),
+            'name'                       => _x( 'SX Photo Galleries', 'taxonomy general name', self::$textdomain ),
+            'singular_name'              => _x( 'SX Photo Gallery', 'taxonomy singular name', self::$textdomain ),
+            'search_items'               => __( 'Search galleries', self::$textdomain ),
+            'popular_items'              => __( 'Popular galleries', self::$textdomain ),
+            'all_items'                  => __( 'All galleries', self::$textdomain ),
+            'parent_item'                => __( 'Parrent gallery', self::$textdomain ),
+            'parent_item_colon'          => __( 'Parrent gallery:', self::$textdomain ),
+            'edit_item'                  => __( 'Edit gallery', self::$textdomain ),
+            'update_item'                => __( 'Update gallery', self::$textdomain ),
+            'add_new_item'               => __( 'Add New gallery', self::$textdomain ),
+            'new_item_name'              => __( 'New gallery Name', self::$textdomain ),
+            'menu_name'                  => __( 'Manage SX Photo Galleries', self::$textdomain ),
         );
 
         $args = array(
@@ -122,7 +146,8 @@ class SXPG_gallery {
             'query_var'             => true,
         );
 
-        register_taxonomy( $this->taxonomy, $this->post_type, $args );
+        register_taxonomy( self::$taxonomy, self::$post_type, $args );
+
     }
 
     /**
@@ -146,7 +171,7 @@ class SXPG_gallery {
      */
     public function sxpg_add_post_thumbnail_column( $cols ){
         $add_cols = array(
-            'sxpg_post_thumb' => __('Photo preview')
+            'sxpg_post_thumb' => __('Photo preview', self::$textdomain )
         );
         // Insert new column right after checkbox ( kind of array_splice for assoc arrays )
         $cols = array_slice( $cols, 0, 1, true ) + $add_cols + array_slice( $cols, 1, NULL, true );
@@ -162,23 +187,23 @@ class SXPG_gallery {
     public function sxpg_filter_by_galleries( $post_type ) {
 
         // Apply this only on a specific post type
-        if ( $this->post_type !== $post_type )
+        if ( self::$post_type !== $post_type )
             return;
 
         // Retrieve taxonomy data
-        $taxonomy_obj = get_taxonomy( $this->taxonomy );
+        $taxonomy_obj = get_taxonomy( self::$taxonomy );
 
         // Retrieve taxonomy terms
-        $terms = get_terms( $this->taxonomy );
+        $terms = get_terms( self::$taxonomy );
 
         // Display filter HTML
-        echo "<select name='{$this->taxonomy}' id='{$this->taxonomy}' class='postform'>";
-        echo '<option value="">' . sprintf( esc_html__( 'Show All %s', 'text_domain' ), $taxonomy_obj->labels->name ) . '</option>';
+        echo "<select name='{" . self::$taxonomy . "}' id='{" . self::$taxonomy . "}' class='postform'>";
+        echo '<option value="">' . sprintf( esc_html__( 'Show All %s', self::$textdomain ), $taxonomy_obj->labels->name ) . '</option>';
         foreach ( $terms as $term ) {
             printf(
                 '<option value="%1$s" %2$s>%3$s (%4$s)</option>',
                 $term->slug,
-                ( ( isset( $_GET[$this->taxonomy] ) && ( $_GET[$this->taxonomy] == $term->slug ) ) ? ' selected="selected"' : '' ),
+                ( ( isset( $_GET[self::$taxonomy] ) && ( $_GET[self::$taxonomy] == $term->slug ) ) ? ' selected="selected"' : '' ),
                 $term->name,
                 $term->count
             );
@@ -194,28 +219,69 @@ class SXPG_gallery {
      * @return string
      */
     public function sxpg_output_gallery( $gallery_name ){
-        $response = '<div class="sxpg-gallery ' . $gallery_name[0] . '" >';
+        $response = '';
         $args = array(
-            'post_type' => $this->post_type,
+            'post_type' => self::$post_type,
             'tax_query' => array(
                 array(
-                    'taxonomy' => $this->taxonomy,
+                    'taxonomy' => self::$taxonomy,
                     'field'    => 'slug',
                     'terms'    => $gallery_name,
                 ),
             ),
         );
 
+        $category = get_term_by( 'slug', $gallery_name[0], self::$taxonomy );
+        $skin     = get_option( SXPG_settings::$skin );
+        if ( empty( $skin ) ) {
+            $skin = SXPG_settings::$default_template;
+        }
+        $skin = sanitize_title( $skin );
+
         $gallery = new WP_Query( $args );
+
         if ( $gallery->have_posts() ) {
+            $response .= '<section class="sx-photo-gallery sx-photo-gallery--' . $skin . ' sx-photo-gallery--' . $gallery_name[0] . '">';
+            $response .= '<h1 class="sx-photo-gallery__title">' . $category->name . '</h1>';
+            $response .= '<ul class="sx-photo-gallery-photos sx-photo-gallery--' . $skin . ' sx-photo-gallery-photos--' . $gallery_name[0] . '">';
+
             while ( $gallery->have_posts() ) {
                 $gallery->the_post();
                 $attachment_id = get_post_thumbnail_id( $gallery->post->ID );
-                $response .= '<img src="' . wp_get_attachment_image_src( $attachment_id, 'full' )[0] . '" alt="' . $gallery->post->post_title . '" />';
+
+                $response .= '<li class="sx-photo-gallery-photos__photo-container">';
+                $response .= '<img class="sx-photo-gallery-photos__photo" src="' . wp_get_attachment_image_src( $attachment_id, 'full' )[0] . '" alt="' . $gallery->post->post_title . '" data-url="' . $gallery->post->post_name . '" />';
+                $response .= '</li>';
             }
+
+            $response .= '</ul>';
+            $response .= '<div class="sx-photo-gallery__controlls"></div>';
+            $response .= '</section>';
+        } else {
+            $response = '<section class="sx-photo-gallery sx-photo-gallery--' . $skin . ' sx-photo-gallery--' . $gallery_name[0] . ' sx-photo-gallery--not-found"><h1>' . $category->name .'</h1> is empty or does not exist</section>';
         }
 
-        return $response . '</div>';
+        return $response;
     }
 
+    /**
+     * Output the SX Photo Galleries as options for select tag
+     *
+     * @return string
+     */
+    public static function sxpg_output_galleries_names(){
+        $options      = '';
+        $sx_galleries = get_terms(
+            array(
+                'taxonomy'   => self::$taxonomy,
+                'hide_empty' => false,
+            )
+        );
+
+        foreach ( $sx_galleries as $gallery ) {
+            $options .= '<option value="'. $gallery->slug .'">' . $gallery->name . '</option>';
+        }
+
+        return $options;
+    }
 }
