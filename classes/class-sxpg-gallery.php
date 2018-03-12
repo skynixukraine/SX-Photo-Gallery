@@ -250,8 +250,8 @@ class SXPG_gallery {
                 $attachment_id = get_post_thumbnail_id( $gallery->post->ID );
 
                 $response .= '<li class="sx-photo-gallery-photos__photo-container">';
-                $response .= '<a href="#">';
-                $response .= '<img class="sx-photo-gallery-photos__photo" src="' . wp_get_attachment_image_src( $attachment_id, 'full' )[0] . '" alt="' . $gallery->post->post_title . '" data-url="' . $gallery->post->post_name . '" />';
+                $response .= '<a href="' . get_permalink( $gallery->post->ID ) . '">';
+                $response .= '<img class="sx-photo-gallery-photos__photo" src="' . wp_get_attachment_image_src( $attachment_id, 'full' )[0] . '" alt="' . $gallery->post->post_title . '" />';
                 $response .= '</a>';
                 $response .= '</li>';
             }

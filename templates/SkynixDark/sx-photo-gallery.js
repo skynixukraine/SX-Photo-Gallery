@@ -1,4 +1,4 @@
-function SXgallery() {
+function SXgallery( $ ) {
     var slides,
         timerId,
         amount,
@@ -18,9 +18,6 @@ function SXgallery() {
     }
 
     function initializeGallery() {
-
-        $('.sx-photo-gallery-photos img')
-            .wrap('<li class="sx-photo-gallery-photos__photo-container"><a href=""></a></li>');
 
         slides = $('.sx-photo-gallery-photos__photo-container');
 
@@ -113,4 +110,4 @@ function SXgallery() {
     autoScroll();
 }
 
-SXgallery();
+SXgallery( jQuery );
