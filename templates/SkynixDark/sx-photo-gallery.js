@@ -20,10 +20,9 @@ function SXgallery() {
     function initializeGallery() {
 
         $('.sx-photo-gallery-photos img')
-            .wrap('<div class="sx-photo-gallery-photos__photo-container"></div>');
+            .wrap('<li class="sx-photo-gallery-photos__photo-container"><a href=""></a></li>');
 
         slides = $('.sx-photo-gallery-photos__photo-container');
-
 
         amount = slides.length;
 
