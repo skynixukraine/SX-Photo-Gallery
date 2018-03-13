@@ -15,7 +15,13 @@ html, body {
 
 @media only screen and (min-width: 500px) {
     .sx-photo-gallery {
-        height: 55vh;
+        height: 75vh;
+    }
+}
+
+@media only screen and (min-width: 900px) {
+    .sx-photo-gallery {
+        height: 50vh;
     }
 }
 
@@ -106,12 +112,6 @@ html, body {
     margin: 0 auto;
     padding: 0;
     position: relative;
-}
-
-@media only screen and (min-width: 430px) {
-    .sx-photo-gallery-photos {
-        height: 45vh;
-    }
 }
 
 .sx-photo-gallery-photos__photo-container {
@@ -235,7 +235,7 @@ html, body {
 }
 
 .sx-photo-gallery-photos__photo-container--3 img {
-    max-width: 70%;
+    max-width: 65%;
     max-height: 100%;
     box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.15);
 }

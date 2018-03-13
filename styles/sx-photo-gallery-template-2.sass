@@ -13,7 +13,9 @@ html,body
     background-color: #252525
     overflow: hidden
     @include breakpoints(s)
-        height: 55vh
+        height: 75vh
+    @include breakpoints(m)
+        height: 50vh
 
     &__controlls
         width: 300px
@@ -86,8 +88,6 @@ html,body
     margin: 0 auto
     padding: 0
     position: relative
-    @include breakpoints(430px)
-        height: 45vh
 
     &__photo-container
         width: 100%
@@ -166,7 +166,7 @@ html,body
                 pointer-events: visible
 
             img
-                max-width: 70%
+                max-width: 65%
                 max-height: 100%
                 box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, .15)
 
