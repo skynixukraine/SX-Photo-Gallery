@@ -16,7 +16,8 @@ html, body {
 
 @media only screen and (min-width: 500px) {
     .sx-photo-gallery {
-        height: 65vh;
+        height: 50%;
+        min-height: 400px;
     }
 }
 

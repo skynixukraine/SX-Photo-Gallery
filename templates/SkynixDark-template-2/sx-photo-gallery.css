@@ -15,13 +15,14 @@ html, body {
 
 @media only screen and (min-width: 500px) {
     .sx-photo-gallery {
-        height: 75vh;
+        height: 80%;
+        min-height: 500px;
     }
 }
 
 @media only screen and (min-width: 900px) {
     .sx-photo-gallery {
-        height: 50vh;
+        height: 50%;
     }
 }
 
