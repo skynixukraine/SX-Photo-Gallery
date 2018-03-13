@@ -1,4 +1,4 @@
-function SXgallery( $ ) {
+(function SXgallery() {
     var slides,
         timerId,
         amount,
@@ -18,42 +18,40 @@ function SXgallery( $ ) {
     }
 
     function initializeGallery() {
-
-        slides = $('.sx-photo-gallery-photos__photo-container');
-
+        slides = jQuery('.sx-photo-gallery-photos__photo-container');
         amount = slides.length;
 
         hideSlides();
 
-        if (amount < 4) {
-            slides.css({'transition': 'opacity .4s  ease-in-out'});
-            for (i = 0; i < 3; i++) {
-                slides.eq(i).show()
-                    .addClass('sx-photo-gallery-photos__photo-container sx-photo-gallery-photos__photo-container--' + i + '');
-            }
-            if (amount < 3) {
-                slides.removeClass();
+        if (amount > 1) {
+
+            if (amount < 4) {
+                slides.css({'transition': 'opacity .4s  ease-in-out'});
                 for (i = 0; i < 3; i++) {
-                    slides.eq(i).show().addClass('sx-photo-gallery-photos__photo-container sx-photo-gallery-photos__photo-container--' + (1 + i) + '');
+                    slides.eq(i).show()
+                        .addClass('sx-photo-gallery-photos__photo-container sx-photo-gallery-photos__photo-container--' + i + '');
+                }
+                if (amount < 3) {
+                    slides.removeClass();
+                    for (i = 0; i < 3; i++) {
+                        slides.eq(i).show().addClass('sx-photo-gallery-photos__photo-container sx-photo-gallery-photos__photo-container--' + (1 + i) + '');
+                    }
+                }
+            } else {
+                for (i = 0; i < 3; i++) {
+                    slides.eq(i).show().addClass('sx-photo-gallery-photos__photo-container--' + i + '');
                 }
             }
-        } else {
-            for (i = 0; i < 3; i++) {
-                slides.eq(i).show().addClass('sx-photo-gallery-photos__photo-container--' + i + '');
-            }
-        }
 
-
-        if (amount > 1) {
-            $('.sx-photo-gallery__controlls-arrow').on('click', function () {
-                switchSlide($(this).data('param'));
+            jQuery('.sx-photo-gallery__controlls-arrow').on('click', function () {
+                switchSlide(jQuery(this).data('param'));
             }).css({'pointer-events': 'inherit'});
 
-            $('.sx-photo-gallery').on('mousemove', function () {
+            jQuery('.sx-photo-gallery').on('mousemove', function () {
                 clearInterval(timerId);
             });
 
-            $('.sx-photo-gallery').on('mouseleave', function () {
+            jQuery('.sx-photo-gallery').on('mouseleave', function () {
                 autoScroll();
             });
 
@@ -65,12 +63,12 @@ function SXgallery( $ ) {
 
 
     function switchSlide(param) {
-        indexOfmain = $('.sx-photo-gallery-photos__photo-container--1').index();
-        indexOfcurrent = ($(param).index());
-        classOfCurrent = $(param).attr('class');
+        indexOfmain = jQuery('.sx-photo-gallery-photos__photo-container--1').index();
+        indexOfcurrent = (jQuery(param).index());
+        classOfCurrent = jQuery(param).attr('class');
 
-        if ($(param).is('.sx-photo-gallery-photos__photo-container')) {
-            $('.sx-photo-gallery-photos__photo-container--1').removeClass().addClass(classOfCurrent);
+        if (jQuery(param).is('.sx-photo-gallery-photos__photo-container')) {
+            jQuery('.sx-photo-gallery-photos__photo-container--1').removeClass().addClass(classOfCurrent);
             slides.eq(indexOfcurrent).removeClass()
                 .addClass('sx-photo-gallery-photos__photo-container sx-photo-gallery-photos__photo-container--1');
         } else if (param === 'right') {
@@ -82,6 +80,7 @@ function SXgallery( $ ) {
 
                 slides.eq(indexOfmain + i).show()
                     .addClass('sx-photo-gallery-photos__photo-container sx-photo-gallery-photos__photo-container--' + i + '');
+
                 if (indexOfmain === (amount - (3 - i))) {
                     for (k = (3 - i); k < 3; k++) {
                         slides.eq(l).show()
@@ -106,8 +105,32 @@ function SXgallery( $ ) {
         }
     }
 
+    function swipe() {
+        var touchstartX = 0;
+        var touchendX = 0;
+
+        var sliderZone = document.querySelector('.sx-photo-gallery');
+
+        sliderZone.addEventListener('touchstart', function (e) {
+            touchstartX = e.changedTouches[0].screenX;
+        }, false);
+
+        sliderZone.addEventListener('touchend', function (e) {
+            touchendX = e.changedTouches[0].screenX;
+            handleGesure();
+        }, false);
+
+        function handleGesure() {
+            if (touchendX < touchstartX) {
+                switchSlide('left');
+            }
+            if (touchendX > touchstartX) {
+                switchSlide('right');
+            }
+        }
+    }
+
     initializeGallery();
     autoScroll();
-}
-
-SXgallery( jQuery );
+    swipe();
+}());

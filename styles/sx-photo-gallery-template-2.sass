@@ -1,0 +1,196 @@
+@import "mixins"
+
+html,body
+    width: 100%
+    height: 100%
+    margin: 0
+    padding: 0
+
+.sx-photo-gallery
+    width: 100%
+    height: 100vh
+    padding: 5% 0
+    background-color: #252525
+    overflow: hidden
+    @include breakpoints(s)
+        height: 55vh
+
+    &__controlls
+        width: 300px
+        margin: 0 auto
+        padding: 10px 0
+        display: flex
+        justify-content: space-between
+        align-items: center
+        @include breakpoints(s)
+            padding: 35px 0
+
+        &::selection
+            opacity: 0
+
+        &::-moz-selection
+            opacity: 0
+
+        &-arrow
+            margin: 0 25px
+            padding: 10px
+            display: inline-block
+            cursor: pointer
+            border: solid transparentize(#fff, .5)
+            border-width: 0 5px 5px 0
+            transition: border .4s
+            pointer-events: none
+
+            &:hover
+                border-color: $dodger-blue
+
+            &--left
+                transform: rotate(135deg)
+
+            &--right
+                transform: rotate(-45deg)
+
+    &__share
+        width: 40px
+        height: 40px
+        border: 1px solid transparentize(#fff, .5)
+        cursor: pointer
+        display: flex
+        justify-content: center
+        align-items: center
+        border-radius: 50%
+        transition: background-color .4s, border-color .4s
+
+        &:hover
+            background: $dodger-blue
+            border-color: transparent
+
+        &-twitter, &-linkedin, &-facebook
+            width: 18px
+            height: 18px
+            background:
+                image: url('../assets/images/icon-sprite.png')
+
+        &-twitter
+            background-position: -48px -8px
+
+        &-linkedin
+            background-position: -10px -11px
+
+        &-facebook
+            background-position: -6px -48px
+
+.sx-photo-gallery-photos
+    max-width: 780px
+    height: 80%
+    margin: 0 auto
+    padding: 0
+    position: relative
+    @include breakpoints(430px)
+        height: 45vh
+
+    &__photo-container
+        width: 100%
+        max-width: 100px
+        background: transparent
+        text-align: center
+        list-style-type: none
+        position: absolute
+        opacity: 0
+        z-index: 1
+        cursor: pointer
+        pointer-events: none
+        @include breakpoints(430px)
+            width: 80%
+        @include breakpoints(630px)
+            pointer-events: inherit
+
+        &:hover
+            opacity: 1
+            transform: scale(1.1)
+
+        a
+            pointer-events: none
+            -moz-user-select: -moz-none
+
+        img
+            max-width: 100%
+            max-height: 120px
+
+        &--0
+            top: 0
+            left: 9%
+            @include breakpoints(630px)
+                opacity: .3
+            @include breakpoints(730px)
+                left: 12%
+
+        &--1
+            top: 50%
+            left: 5%
+            transform: translateY(-50%)
+            @include breakpoints(630px)
+                opacity: .3
+
+            &:hover
+                transform: scale(1.1) translateY(-50%)
+
+        &--2
+            transition: opacity .5s, top .5s, left .5s
+            top: 80%
+            left: 9%
+            @include breakpoints(630px)
+                opacity: .3
+            @include breakpoints(730px)
+                left: 12%
+
+        &--3
+            max-width: 100%
+            height: auto
+            left: 50%
+            top: 50%
+            transform: translateY(-50%) translateX(-50%)
+            position: relative
+            opacity: 1
+            z-index: 2
+            transition: opacity .5s, top .5s, left .5s
+            @include breakpoints(630px)
+                max-width: 400px
+
+                img
+                    max-width: 100%
+            &:hover
+                transform: translateY(-50%) translateX(-50%)
+
+            a
+                pointer-events: visible
+
+            img
+                max-width: 70%
+                max-height: 100%
+                box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, .15)
+
+        &--4
+            top: 80%
+            left: 75%
+            transition: opacity .5s, top .5s ease-in-out, left .5s ease-out
+            @include breakpoints(630px)
+                opacity: .3
+
+        &--5
+            transform: translateY(-50%)
+            top: 50%
+            left: 80%
+            @include breakpoints(630px)
+                opacity: .3
+            @include breakpoints(730px)
+                left: 82%
+
+            &:hover
+                transform: scale(1.1) translateY(-50%)
+
+        &--6
+            top: 0
+            left: 75%
+            @include breakpoints(630px)
+                opacity: .3

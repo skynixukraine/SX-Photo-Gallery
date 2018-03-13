@@ -1,15 +1,29 @@
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
 .sx-photo-gallery {
     width: 100%;
-    height: 500px;
-    background-color: #252525;
+    height: 100vh;
     padding: 5% 0;
+    background-color: #252525;
+    overflow: hidden;
     perspective: 800px;
+}
+
+@media only screen and (min-width: 500px) {
+    .sx-photo-gallery {
+        height: 65vh;
+    }
 }
 
 .sx-photo-gallery__controlls {
     width: 320px;
     margin: 0 auto;
-    padding: 35px 0;
+    padding: 10px 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -17,7 +31,7 @@
 
 @media only screen and (min-width: 500px) {
     .sx-photo-gallery__controlls {
-        padding: 10px 0;
+        padding: 35px 0;
     }
 }
 

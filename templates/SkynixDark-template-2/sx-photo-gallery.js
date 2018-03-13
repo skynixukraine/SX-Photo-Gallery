@@ -1,11 +1,11 @@
-function SXgallery( $ ) {
+(function SXgallery() {
     var slides,
         timerId,
         amount,
+        state = false,
         indexOfcurrent,
-        indexOfstart,
-        indexOfpenult,
-        i, l, k;
+        indexOflast,
+        i, l, k, m;
 
     function hideSlides() {
         slides.not('.sx-photo-gallery-photos__photo-container--0,' +
@@ -24,98 +24,152 @@ function SXgallery( $ ) {
     }
 
     function initializeGallery() {
-
-        slides = $('.sx-photo-gallery-photos__photo-container');
-
-        slides.on('click', function () {
-            switchSlide(this);
-        });
-
+        slides = jQuery('.sx-photo-gallery-photos__photo-container');
         amount = slides.length;
 
         hideSlides();
 
-        if (amount < 8) {
-            slides.css({'transition': 'opacity .4s  ease-in-out'});
-            for (i = 0; i < 7; i++) {
-                slides.eq(i).show()
-                    .addClass('sx-photo-gallery-photos__photo-container sx-photo-gallery-photos__photo-container--' + i + '');
-            }
-            if (amount < 5) {
-                slides.removeClass();
+        if (amount >= 1) {
+            if (amount < 7) {
+                if (amount < 4) {
+                    k = 3;
+                } else {
+                    k = 7 - amount;
+                }
+
                 for (i = 0; i < amount; i++) {
-                    slides.eq(i).show().addClass('sx-photo-gallery-photos__photo-container sx-photo-gallery-photos__photo-container--' + (3 + i) + '');
+                    slides.eq(i).show().addClass('sx-photo-gallery-photos__photo-container--' + k + '');
+                    k += 1;
+                }
+            } else {
+                for (i = 0; i < 7; i++) {
+                    slides.eq(i).show().addClass('sx-photo-gallery-photos__photo-container--' + i + '');
                 }
             }
-        } else {
-            for (i = 0; i < 7; i++) {
-                slides.eq(i).show().addClass('sx-photo-gallery-photos__photo-container--' + i + '');
-            }
-        }
 
-
-        if (amount > 1) {
-            $('.sx-photo-gallery__controlls-arrow').on('click', function () {
-                switchSlide($(this).data('param'));
+            jQuery('.sx-photo-gallery__controlls-arrow').on('click', function () {
+                switchSlide(jQuery(this).data('param'));
             }).css({'pointer-events': 'inherit'});
 
-            $('.sx-photo-gallery').on('mousemove', function () {
+            jQuery('.sx-photo-gallery').on('mousemove', function () {
                 clearInterval(timerId);
             });
-
-            $('.sx-photo-gallery').on('mouseleave', function () {
+            jQuery('.sx-photo-gallery').on('mouseleave', function () {
                 autoScroll();
+            });
+
+            slides.on('click', function () {
+                switchSlide(this);
             });
         }
     }
 
 
     function switchSlide(param) {
-        indexOfstart = $('.sx-photo-gallery-photos__photo-container--1').index();
-        indexOfpenult = $('.sx-photo-gallery-photos__photo-container--5').index();
-        indexOfmain = $('.sx-photo-gallery-photos__photo-container--3').index();
-        indexOfcurrent = ($(param).index());
-        classOfCurrent = $(param).attr('class');
+        indexOfcurrent = (jQuery(param).index());
+        classOfCurrent = jQuery(param).attr('class');
 
-        if ($(param).is('.sx-photo-gallery-photos__photo-container')) {
-            $('.sx-photo-gallery-photos__photo-container--3').removeClass().addClass(classOfCurrent);
+        if (amount < 5) {
+            l = 3;
+            indexOflast = jQuery('.sx-photo-gallery-photos__photo-container--' + (amount + 1) + '').index();
+            indexOfmain = jQuery('.sx-photo-gallery-photos__photo-container--3').index();
+            if (state) {
+                indexOflast = indexOfmain;
+            }
+        } else if (amount < 7) {
+            l = 7 - amount;
+            if (state) {
+                indexOfmain = jQuery('.sx-photo-gallery-photos__photo-container--3').index() - (amount - 4);
+                indexOflast = jQuery('.sx-photo-gallery-photos__photo-container--3').index() + 2;
+            } else {
+                indexOflast = jQuery('.sx-photo-gallery-photos__photo-container--5').index();
+                indexOfmain = jQuery('.sx-photo-gallery-photos__photo-container--' + l + '').index();
+            }
+        } else {
+            l = 0;
+            if (state) {
+                indexOfmain = jQuery('.sx-photo-gallery-photos__photo-container--3').index() - 3;
+                indexOflast = jQuery('.sx-photo-gallery-photos__photo-container--3').index() + 2;
+            } else {
+                indexOfmain = jQuery('.sx-photo-gallery-photos__photo-container--0').index();
+                indexOflast = jQuery('.sx-photo-gallery-photos__photo-container--5').index();
+            }
+        }
+
+        if (jQuery(param).is('.sx-photo-gallery-photos__photo-container')) {
+            jQuery('.sx-photo-gallery-photos__photo-container--3').removeClass().addClass(classOfCurrent);
             slides.eq(indexOfcurrent).removeClass()
                 .addClass('sx-photo-gallery-photos__photo-container sx-photo-gallery-photos__photo-container--3');
-        } else if (param === 'right' && amount > 4) {
+            state = true;
+
+        } else if (param === 'right') {
             slides.removeClass();
+            m = l;
 
-            for (i = 0; i < 7; i++) {
-                l = 0;
-                k = 0;
+            for (i = 0; i < amount; i++) {
+                slides.eq(indexOfmain + i + 1).show()
+                    .addClass('sx-photo-gallery-photos__photo-container sx-photo-gallery-photos__photo-container--' + (m + i) + '');
 
-                slides.eq(indexOfstart + i).show()
-                    .addClass('sx-photo-gallery-photos__photo-container sx-photo-gallery-photos__photo-container--' + i + '');
-                if (indexOfstart === (amount - (7 - i))) {
-                    for (k = (7 - i); k < 7; k++) {
-                        slides.eq(l).show()
-                            .addClass('sx-photo-gallery-photos__photo-container sx-photo-gallery-photos__photo-container--' + k + '');
+
+                if (indexOfmain === (amount - i - 1)) {
+                    for (k = 0; k < (indexOfmain + 1); k++) {
+                        slides.eq(k).show()
+                            .addClass('sx-photo-gallery-photos__photo-container sx-photo-gallery-photos__photo-container--' + (l + i) + '');
                         l += 1;
                     }
                 }
-            }
 
+            }
+            state = false;
             hideSlides();
 
-        } else if (param === 'left' && amount > 4) {
-            k = 0;
+        } else if (param === 'left') {
             slides.removeClass();
+            k = 0;
 
-            for (i = 6; i >= 0; i--) {
-                slides.eq(indexOfpenult - k).show()
-                    .addClass('sx-photo-gallery-photos__photo-container sx-photo-gallery-photos__photo-container--' + i + '');
-                k += 1;
+            if (amount < 5) {
+                for (i = amount + 2; i >= 3; i--) {
+                    slides.eq(indexOflast - k).show()
+                        .addClass('sx-photo-gallery-photos__photo-container sx-photo-gallery-photos__photo-container--' + i + '');
+                    k += 1;
+                }
+            } else {
+                for (i = 6; i >= 0; i--) {
+                    slides.eq(indexOflast - k).show()
+                        .addClass('sx-photo-gallery-photos__photo-container sx-photo-gallery-photos__photo-container--' + i + '');
+                    k += 1;
+                }
             }
+            state = false;
             hideSlides();
+        }
+    }
+    function swipe() {
+        var touchstartX = 0;
+        var touchendX = 0;
+
+        var sliderZone = document.querySelector('.sx-photo-gallery');
+
+        sliderZone.addEventListener('touchstart', function(e) {
+            touchstartX = e.changedTouches[0].screenX;
+        }, false);
+
+        sliderZone.addEventListener('touchend', function(e) {
+            touchendX = e.changedTouches[0].screenX;
+            handleGesure();
+        }, false);
+
+        function handleGesure() {
+            if (touchendX < touchstartX) {
+                switchSlide('left');
+            }
+            if (touchendX > touchstartX) {
+                switchSlide('right');
+            }
         }
     }
 
     initializeGallery();
     autoScroll();
-}
-
-SXgallery( jQuery );
+    swipe();
+}());
