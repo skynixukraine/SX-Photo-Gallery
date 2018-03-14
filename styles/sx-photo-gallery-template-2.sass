@@ -178,8 +178,10 @@ html,body
                 pointer-events: visible
 
             img
-                max-height: $img-height-main
+                max-height: 350px
                 box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, .15)
+                @include breakpoints(s)
+                    max-height: $img-height-main
 
         &--4
             top: calc(100% - #{$img-width-sm})

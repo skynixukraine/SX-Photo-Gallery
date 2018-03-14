@@ -252,8 +252,14 @@ html, body {
 }
 
 .sx-photo-gallery-photos__photo-container--3 img {
-    max-height: 420px;
+    max-height: 350px;
     box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, 0.15);
+}
+
+@media only screen and (min-width: 576px) {
+    .sx-photo-gallery-photos__photo-container--3 img {
+        max-height: 420px;
+    }
 }
 
 .sx-photo-gallery-photos__photo-container--4 {
