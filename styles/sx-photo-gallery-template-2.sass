@@ -9,9 +9,12 @@ html,body
 
 .sx-photo-gallery
     width: 100%
+    height: 100vh
     padding: 5% 0
     background-color: $mine-shaft
     overflow: hidden
+    @include breakpoints(s)
+        height: auto
 
     &__controlls
         width: $controls-width
@@ -38,6 +41,7 @@ html,body
             border-width: 0 5px 5px 0
             transition: border .4s
             pointer-events: none
+            -webkit-tap-highlight-color: transparent
 
             &:hover
                 border-color: $dodger-blue
@@ -67,7 +71,7 @@ html,body
             width: 18px
             height: 18px
             background:
-                image: url('../assets/icon-sprite.png')
+                image: url('../assets/images/icon-sprite.png')
 
         &-twitter
             background-position: -48px -8px
@@ -80,7 +84,7 @@ html,body
 
 .sx-photo-gallery-photos
     width: 90%
-    height: 85vh
+    height: 74%
     margin: 0 auto
     padding: 0
     position: relative
@@ -99,16 +103,19 @@ html,body
         z-index: 1
         cursor: pointer
         pointer-events: none
+        transition: opacity .5s, top .5s, transform .5s, left .5s
         @include breakpoints(s)
             max-width: $img-width-s
             pointer-events: inherit
             opacity: .3
+
+        &:hover
+            @include breakpoints(s)
+                opacity: 1
+
         @include breakpoints($sm)
             max-width: $img-width-sm
 
-        &:hover
-            opacity: 1
-            transform: scale(1.1)
 
         a
             pointer-events: none
@@ -122,30 +129,29 @@ html,body
             top: 0
             left: 0
             transform: translateX(-$img-width-sm)
-            transition: opacity .5s
             @include breakpoints($sm)
                 transform: translateX(calc(#{-$img-width-sm} - 30px))
 
             &:hover
-                transform: scale(1.1) translateX(calc(#{-$img-width-sm} + 10px))
+                @include breakpoints(s)
+                    transform: scale(1.1) translateX(calc(#{-$img-width-sm} + 10px))
                 @include breakpoints($sm)
                     transform: scale(1.1) translateX(calc(#{-$img-width-sm} - 20px))
 
         &--1
             top: 50%
             left: 0
-            transition: opacity .5s
-            transform: translateY(-50%) translateX(calc(#{-$img-width-sm} - 10px))
+            transform: translateY(-50%) translateX(calc(#{-$img-width-sm}))
             @include breakpoints($sm)
                 transform: translateY(-50%) translateX(calc(#{-$img-width-sm} - 65px))
 
             &:hover
-                transform: scale(1.1) translateY(-50%) translateX(-$img-width-sm)
+                @include breakpoints(s)
+                    transform: scale(1.1) translateY(-50%) translateX(-$img-width-sm)
                 @include breakpoints($sm)
                     transform: scale(1.1) translateY(-50%) translateX(calc(#{-$img-width-sm} - 50px))
 
         &--2
-            transition: opacity .5s, top .5s, transform .5s, left .5s
             top: calc(100% - #{$img-width-sm})
             left: 0
             transform: translateX(-$img-width-sm)
@@ -153,7 +159,8 @@ html,body
                 transform: translateX(calc(#{-$img-width-sm} - 30px))
 
             &:hover
-                transform: scale(1.1) translateX(calc(#{-$img-width-sm} + 10px))
+                @include breakpoints(s)
+                    transform: scale(1.1) translateX(calc(#{-$img-width-sm} + 10px))
                 @include breakpoints($sm)
                     transform: scale(1.1) translateX(calc(#{-$img-width-sm} - 20px))
 
@@ -166,10 +173,6 @@ html,body
             text-align: center
             opacity: 1
             z-index: 2
-            transition: opacity .5s, left .5s, top .5s
-
-            &:hover
-                transform: translateY(-50%) translateX(-50%)
 
             a
                 pointer-events: visible
@@ -182,40 +185,40 @@ html,body
             top: calc(100% - #{$img-width-sm})
             left: 77%
             transform: translateX($img-width-sm)
-            transition: opacity .5s, top .5s, transform .5s, left .5s
             @include breakpoints($sm)
                 left: 75%
                 transform: translateX(calc(#{$img-width-sm} + 30px))
 
             &:hover
-                transform: translateX($img-width-sm) scale(1.1)
+                @include breakpoints(s)
+                    transform: translateX($img-width-sm) scale(1.1)
                 @include breakpoints($sm)
                     transform: translateX(calc(#{$img-width-sm} + 30px)) scale(1.1)
 
         &--5
-            transform: translateY(-50%) translateX($img-width-sm)
             top: 50%
             left: 77%
-            transition: opacity .5s
+            transform: translateY(-50%) translateX($img-width-sm)
             @include breakpoints($sm)
                 left: 75%
                 transform: translateY(-50%) translateX(calc(#{$img-width-sm} + 65px))
 
             &:hover
-                transform: scale(1.1) translateY(-50%) translateX(calc(#{$img-width-sm} - 10px))
+                @include breakpoints(s)
+                    transform: scale(1.1) translateY(-50%) translateX(calc(#{$img-width-sm} - 10px))
                 @include breakpoints($sm)
                     transform: scale(1.1) translateY(-50%) translateX(calc(#{$img-width-sm} + 50px))
 
         &--6
             top: 0
             left: 77%
-            transition: opacity .5s
             transform: translateX($img-width-sm)
             @include breakpoints($sm)
                 left: 75%
                 transform: translateX(calc(#{$img-width-sm} + 30px))
 
             &:hover
-                transform: scale(1.1) translateX(calc(#{$img-width-sm} - 10px))
+                @include breakpoints(s)
+                    transform: scale(1.1) translateX(calc(#{$img-width-sm} - 10px))
                 @include breakpoints($sm)
                     transform: scale(1.1) translateX(calc(#{$img-width-sm} + 20px))
