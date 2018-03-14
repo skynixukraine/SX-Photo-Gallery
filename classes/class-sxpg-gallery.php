@@ -79,16 +79,16 @@ class SXPG_gallery {
 
         $supports = array(
             'title',
-//            'editor',
+            'editor',
             'author',
             'thumbnail',
-//            'excerpt',
-//            'trackbacks',
+            'excerpt',
+            'trackbacks',
             'custom-fields',
-//            'comments',
-//            'revisions',
-//            'page-attributes',
-//            'post-formats',
+            'comments',
+            'revisions',
+            'page-attributes',
+            'post-formats',
         );
 
         // Set other options for Custom Post Type
