@@ -8,24 +8,20 @@ html,body
 
 .sx-photo-gallery
     width: 100%
-    height: 100vh
     padding: 5% 0
     background-color: #252525
     overflow: hidden
     perspective: 800px
-    @include breakpoints(s)
-        height: 50%
-        min-height: 400px
 
     &__controlls
-        width: 320px
+        width: $controls-width
         margin: 0 auto
         padding: 10px 0
         display: flex
         justify-content: space-between
         align-items: center
         @include breakpoints(s)
-            padding: 35px 0
+            padding: 40px 0 0 0
 
         &::selection
             opacity: 0
@@ -83,14 +79,16 @@ html,body
             background-position: -6px -48px
 
 .sx-photo-gallery-photos
-    width: 95%
-    height: 80%
+    width: 90%
+    height: 85vh
     margin: 0 auto
-    padding: 0
     position: relative
     transform-style: preserve-3d
     @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none)
         perspective: 800px
+    @include breakpoints(s)
+        height: 30vh
+        min-height: 420px
 
     &__photo-container
         width: 90%
@@ -117,7 +115,7 @@ html,body
 
         img
             max-width: 100%
-            max-height: 400px
+            max-height: 350px
 
         &--0
             opacity: 0

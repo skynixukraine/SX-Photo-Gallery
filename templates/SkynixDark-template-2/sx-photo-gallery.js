@@ -20,16 +20,29 @@
     function autoScroll() {
         timerId = setInterval(function () {
             switchSlide('right');
-        }, 3000);
+        }, 2500);
+    }
+
+    function updateShareLinks() {
+        var src = jQuery('.sx-photo-gallery-photos__photo-container--3 img').attr('src');
+        jQuery('.sx-photo-gallery__share-facebook').parent()
+            .attr('href', 'https://www.facebook.com/sharer/sharer.php?u=' + src + '');
+        jQuery('.sx-photo-gallery__share-twitter').parent()
+            .attr('href', 'https://twitter.com/home?status=' + src + '');
+        jQuery('.sx-photo-gallery__share-linkedin').parent()
+            .attr('href', 'https://www.linkedin.com/shareArticle?mini=true&url=' + src + '');
     }
 
     function initializeGallery() {
+        jQuery('.sx-photo-gallery-photos img')
+            .wrap('<li class="sx-photo-gallery-photos__photo-container"><a href=""></a></li>');
+
         slides = jQuery('.sx-photo-gallery-photos__photo-container');
         amount = slides.length;
 
         hideSlides();
 
-        if (amount >= 1) {
+        if (amount > 0) {
             if (amount < 7) {
                 if (amount < 4) {
                     k = 3;
@@ -45,22 +58,33 @@
                 for (i = 0; i < 7; i++) {
                     slides.eq(i).show().addClass('sx-photo-gallery-photos__photo-container--' + i + '');
                 }
+
+                slides.css({'transition': 'opacity .5s, top .5s, transform .5s, left .5s'});
             }
 
-            jQuery('.sx-photo-gallery__controlls-arrow').on('click', function () {
-                switchSlide(jQuery(this).data('param'));
-            }).css({'pointer-events': 'inherit'});
+            if (amount > 1) {
+                jQuery('.sx-photo-gallery__controlls-arrow').on('click', function () {
+                    switchSlide(jQuery(this).data('param'));
+                }).css({'pointer-events': 'inherit'});
 
-            jQuery('.sx-photo-gallery').on('mousemove', function () {
-                clearInterval(timerId);
-            });
-            jQuery('.sx-photo-gallery').on('mouseleave', function () {
-                autoScroll();
-            });
+                slides.on('click', function () {
+                    switchSlide(this);
+                });
 
-            slides.on('click', function () {
-                switchSlide(this);
-            });
+                if (jQuery(window).width() > 560) {
+                    jQuery('.sx-photo-gallery').on('mousemove', function () {
+                        clearInterval(timerId);
+                    });
+                    jQuery('.sx-photo-gallery').on('mouseleave', function () {
+                        autoScroll();
+                    });
+                    autoScroll();
+                } else {
+                    swipe();
+                }
+            }
+
+            updateShareLinks();
         }
     }
 
@@ -102,6 +126,8 @@
                 .addClass('sx-photo-gallery-photos__photo-container sx-photo-gallery-photos__photo-container--3');
             state = true;
 
+            updateShareLinks();
+
         } else if (param === 'right') {
             slides.removeClass();
             m = l;
@@ -121,6 +147,7 @@
 
             }
             state = false;
+            updateShareLinks();
             hideSlides();
 
         } else if (param === 'left') {
@@ -141,35 +168,35 @@
                 }
             }
             state = false;
+            updateShareLinks();
             hideSlides();
         }
     }
+
     function swipe() {
         var touchstartX = 0;
         var touchendX = 0;
 
         var sliderZone = document.querySelector('.sx-photo-gallery');
 
-        sliderZone.addEventListener('touchstart', function(e) {
+        sliderZone.addEventListener('touchstart', function (e) {
             touchstartX = e.changedTouches[0].screenX;
         }, false);
 
-        sliderZone.addEventListener('touchend', function(e) {
+        sliderZone.addEventListener('touchend', function (e) {
             touchendX = e.changedTouches[0].screenX;
             handleGesure();
         }, false);
 
         function handleGesure() {
             if (touchendX < touchstartX) {
-                switchSlide('left');
+                switchSlide('right');
             }
             if (touchendX > touchstartX) {
-                switchSlide('right');
+                switchSlide('left');
             }
         }
     }
 
     initializeGallery();
-    autoScroll();
-    swipe();
 }());
