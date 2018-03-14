@@ -34,9 +34,6 @@
     }
 
     function initializeGallery() {
-        jQuery('.sx-photo-gallery-photos img')
-            .wrap('<li class="sx-photo-gallery-photos__photo-container"><a href=""></a></li>');
-
         slides = jQuery('.sx-photo-gallery-photos__photo-container');
         amount = slides.length;
 
@@ -72,7 +69,7 @@
                 });
 
                 if (jQuery(window).width() > 560) {
-                    jQuery('.sx-photo-gallery').on('mousemove', function () {
+                    jQuery('.sx-photo-gallery').on('mouseenter', function () {
                         clearInterval(timerId);
                     });
                     jQuery('.sx-photo-gallery').on('mouseleave', function () {
@@ -132,7 +129,7 @@
             slides.removeClass();
             m = l;
 
-            for (i = 0; i < amount; i++) {
+            for (i = 0; i < 7; i++) {
                 slides.eq(indexOfmain + i + 1).show()
                     .addClass('sx-photo-gallery-photos__photo-container sx-photo-gallery-photos__photo-container--' + (m + i) + '');
 

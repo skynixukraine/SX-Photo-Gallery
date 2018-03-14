@@ -28,12 +28,7 @@
     }
 
     function initializeGallery() {
-
-        jQuery('.sx-photo-gallery-photos img')
-            .wrap('<li class="sx-photo-gallery-photos__photo-container"><a href=""></a></li>');
-
         slides = jQuery('.sx-photo-gallery-photos__photo-container');
-
         amount = slides.length;
 
         hideSlides();
@@ -68,7 +63,7 @@
                 });
 
                 if (jQuery(window).width() > 560) {
-                    jQuery('.sx-photo-gallery').on('mousemove', function () {
+                    jQuery('.sx-photo-gallery').on('mouseenter', function () {
                         clearInterval(timerId);
                     });
                     jQuery('.sx-photo-gallery').on('mouseleave', function () {
