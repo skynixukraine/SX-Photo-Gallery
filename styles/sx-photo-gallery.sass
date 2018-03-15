@@ -1,4 +1,5 @@
 @import "mixins"
+@import "variables"
 
 html,body
     width: 100%
@@ -10,7 +11,7 @@ html,body
     width: 100%
     height: 100vh
     padding: 5% 0
-    background-color: #252525
+    background-color: $mine-shaft
     overflow: hidden
     perspective: 800px
     @include breakpoints(s)
@@ -26,10 +27,7 @@ html,body
         @include breakpoints(s)
             padding: 40px 0 0 0
 
-        &::selection
-            opacity: 0
-
-        &::-moz-selection
+        &::selection, &::-moz-selection
             opacity: 0
 
         &-arrow
@@ -41,6 +39,7 @@ html,body
             border-width: 0 5px 5px 0
             transition: border .4s
             pointer-events: none
+            -webkit-tap-highlight-color: transparent
 
             &:hover
                 border-color: $dodger-blue
@@ -70,7 +69,7 @@ html,body
             width: 18px
             height: 18px
             background:
-                image: url('../assets/icon-sprite.png')
+                image: url('../assets/images/icon-sprite.png')
 
         &-twitter
             background-position: -48px -8px
@@ -107,10 +106,10 @@ html,body
         border: 1px solid transparent
         text-align: center
         transition: transform .6s ease, opacity .6s ease-in-out .2s
-        @include breakpoints(s)
-            width: 40%
         @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none)
             transition: none
+        @include breakpoints(s)
+            width: 40%
 
         a
             pointer-events: none

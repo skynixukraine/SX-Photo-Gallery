@@ -27,7 +27,7 @@
             };
 
         touchsurface = document.querySelectorAll('.sx-photo-gallery-photos__photo-container img');
-        touchsurface.forEach(function (element) {
+        Array.prototype.forEach.call(touchsurface, function (element) {
             element.addEventListener('touchstart', function (e) {
                 var touchobj = e.changedTouches[0];
                 swipedir = 'none';
