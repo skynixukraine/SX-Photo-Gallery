@@ -4,6 +4,8 @@
         amount,
         state = false,
         indexOfcurrent,
+        classOfCurrent,
+        indexOfmain,
         indexOflast,
         i, l, k, m;
 
@@ -18,7 +20,7 @@
 
         touchsurface = document.querySelectorAll('.sx-photo-gallery-photos__photo-container img');
 
-        touchsurface.forEach(function (element) {
+        Array.prototype.forEach.call(touchsurface, function (element) {
 
             element.addEventListener('touchstart', function (e) {
                 var touchobj = e.changedTouches[0];
@@ -87,14 +89,13 @@
                     k = 3;
                 } else {
                     k = 7 - amount;
+                    slides.css({'transition': 'opacity .5s ease-in-out'});
                 }
 
                 for (i = 0; i < amount; i++) {
                     slides.eq(i).show().addClass('sx-photo-gallery-photos__photo-container--' + k + '');
                     k += 1;
                 }
-
-                slides.css({'transition': 'opacity .5s'});
 
             } else {
                 for (i = 0; i < 7; i++) {
@@ -127,8 +128,6 @@
                     swipedetect(function (swipedir) {
                         switchSlide(swipedir);
                     });
-
-                    slides.css({'transition': 'none'});
                 }
             }
             updateShareLinks();
