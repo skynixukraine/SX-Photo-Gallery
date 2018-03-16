@@ -1,11 +1,11 @@
 === SX Photo Gallery ===
 Contributors: skynix
 # Donate link: do not have yet
-Tags: photo, gallery, simple, inline, free, wordpress, plugin, skynix
+Tags: photo, photo gallery, inline gallery, free gallery, wordpress gallery, gallery plugin, sx gallery, skynix
 Requires at least: 4.6
 Tested up to: 4.9.4
 Stable tag: 1.0.0
-Requires PHP: 5.5
+Requires PHP: 5.6 or later
 License: GPL3
 License URI: https://www.gnu.org/licenses/gpl.html
 
