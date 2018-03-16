@@ -1,0 +1,152 @@
+@import "mixins"
+@import "variables"
+
+html,body
+    width: 100%
+    height: 100%
+    margin: 0
+    padding: 0
+
+.sx-photo-gallery
+    width: 100%
+    height: 100vh
+    padding: 0 1% 5%
+    background-color: $mine-shaft
+    overflow: hidden
+    perspective: 800px
+    @include breakpoints(s)
+        height: auto
+
+    &__title
+        max-width: calc(#{$img-width-main--s}*2)
+        margin: 5% 10px 1%
+        text-align: center
+        color: transparentize(#fff, .3)
+        @include breakpoints(s)
+            margin: 30px auto 65px
+
+    &__controlls
+        width: $controls-width
+        margin: 0 auto
+        padding: 10px 0
+        display: flex
+        justify-content: space-between
+        align-items: center
+        @include breakpoints(s)
+            padding: 40px 0 0 0
+
+        &::selection, &::-moz-selection
+            opacity: 0
+
+        &-arrow
+            margin: 0 25px
+            padding: 10px
+            display: inline-block
+            cursor: pointer
+            border: solid transparentize(#fff, .5)
+            border-width: 0 5px 5px 0
+            transition: border .4s
+            pointer-events: none
+            -webkit-tap-highlight-color: transparent
+
+            &:hover
+                border-color: $dodger-blue
+
+            &--left
+                transform: rotate(135deg)
+
+            &--right
+                transform: rotate(-45deg)
+
+    &__share
+        width: 40px
+        height: 40px
+        border: 1px solid transparentize(#fff, .5)
+        cursor: pointer
+        display: flex
+        justify-content: center
+        align-items: center
+        border-radius: 50%
+        transition: background-color .4s, border-color .4s
+
+        &:hover
+            background: $dodger-blue
+            border-color: transparent
+
+        &-twitter, &-linkedin, &-facebook
+            width: 18px
+            height: 18px
+            background:
+                image: url('../assets/images/icon-sprite.png')
+
+        &-twitter
+            background-position: -48px -8px
+
+        &-linkedin
+            background-position: -10px -11px
+
+        &-facebook
+            background-position: -6px -48px
+
+.sx-photo-gallery-photos
+    width: 90%
+    height: 70%
+    margin: 0 auto
+    position: relative
+    transform-style: preserve-3d
+    @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none)
+        perspective: 800px
+    @include breakpoints(s)
+        height: 30vh
+        min-height: 420px
+
+    &__photo-container
+        width: 90%
+        max-width: 350px
+        top: 50%
+        left: 50%
+        position: absolute
+        z-index: 1
+        opacity: 0
+        cursor: pointer
+        background: transparent
+        list-style-type: none
+        border: 1px solid transparent
+        text-align: center
+        transition: transform .6s ease, opacity .6s ease-in-out .2s
+        @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none)
+            transition: none
+        @include breakpoints(s)
+            width: 40%
+
+        a
+            pointer-events: none
+            -moz-user-select: -moz-none
+
+        img
+            max-width: 100%
+            max-height: 350px
+
+        &--0
+            opacity: 0
+            transform: translateX(-110%) translateY(-50%) rotateY(35deg)
+            @include breakpoints(s)
+                opacity: .3
+
+        &--1
+            opacity: 1
+            transform: translateY(-50%) translateX(-50%)
+            z-index: 2
+            transition-delay: .1s
+
+            a
+                pointer-events: visible
+
+            img
+                box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, .15)
+
+        &--2
+            opacity: 0
+            transform: translateX(10%) translateY(-50%) rotateY(325deg)
+            @include breakpoints(s)
+                opacity: .3

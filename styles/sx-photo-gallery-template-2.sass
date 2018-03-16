@@ -1,0 +1,245 @@
+@import "mixins"
+@import "variables"
+
+html,body
+    width: 100%
+    height: 100%
+    margin: 0
+    padding: 0
+
+.sx-photo-gallery
+    width: 100%
+    height: 100vh
+    padding: 0 1% 5%
+    background-color: $mine-shaft
+    overflow: hidden
+    @include breakpoints(s)
+        height: auto
+
+    &__title
+        max-width: calc(#{$img-width-main--s}*2)
+        margin: 5% 10px 1%
+        text-align: center
+        color: transparentize(#fff, .3)
+        @include breakpoints(s)
+            margin: 30px auto 65px
+
+    &__controlls
+        width: $controls-width
+        margin: 0 auto
+        padding: 10px 0
+        display: flex
+        justify-content: space-between
+        align-items: center
+        @include breakpoints(s)
+            padding: 40px 0 0 0
+
+        &::selection
+            opacity: 0
+
+        &::-moz-selection
+            opacity: 0
+
+        &-arrow
+            margin: 0 25px
+            padding: 10px
+            display: inline-block
+            cursor: pointer
+            border: solid transparentize(#fff, .5)
+            border-width: 0 5px 5px 0
+            transition: border .4s
+            pointer-events: none
+            -webkit-tap-highlight-color: transparent
+
+            &:hover
+                border-color: $dodger-blue
+
+            &--left
+                transform: rotate(135deg)
+
+            &--right
+                transform: rotate(-45deg)
+
+    &__share
+        width: 40px
+        height: 40px
+        border: 1px solid transparentize(#fff, .5)
+        cursor: pointer
+        display: flex
+        justify-content: center
+        align-items: center
+        border-radius: 50%
+        transition: background-color .4s, border-color .4s
+
+        &:hover
+            background: $dodger-blue
+            border-color: transparent
+
+        &-twitter, &-linkedin, &-facebook
+            width: 18px
+            height: 18px
+            background:
+                image: url('../assets/images/icon-sprite.png')
+
+        &-twitter
+            background-position: -48px -8px
+
+        &-linkedin
+            background-position: -10px -11px
+
+        &-facebook
+            background-position: -6px -48px
+
+.sx-photo-gallery-photos
+    width: 90%
+    height: 74%
+    margin: 0 auto
+    padding: 0
+    position: relative
+    -webkit-backface-visibility: hidden
+    -webkit-transform: translate3d(0, 0, 0)
+    @include breakpoints(s)
+        max-width: $img-width-main--s
+        height: 30vh
+        min-height: $img-height-main
+    @include breakpoints($sm)
+        max-width: $img-width-main--sm
+
+    &__photo-container
+        background: transparent
+        list-style-type: none
+        position: absolute
+        opacity: 0
+        z-index: 1
+        cursor: pointer
+        pointer-events: none
+        will-change: transform
+        @include breakpoints(s)
+            max-width: $img-width-s
+            -webkit-transform: translate3d(0, 0, 0)
+            transition: top .5s, left .5s
+            -webkit-transition: top .4s ease-out, left .4s ease-out
+            pointer-events: inherit
+            opacity: .3
+        @include breakpoints($sm)
+            max-width: $img-width-sm
+
+        &:hover
+            @include breakpoints(s)
+                opacity: 1
+
+        a
+            pointer-events: none
+            -moz-user-select: -moz-none
+
+        img
+            max-width: 100%
+            max-height: $img-height-sm
+
+        &--0
+            top: 0
+            left: 0
+            transform: translate3d(-$img-width-sm, 0, 0)
+            @include breakpoints($sm)
+                transform: translate3d(calc(#{-$img-width-sm} - 30px), 0, 0)
+
+            &:hover
+                transition: transform .3s, opacity .3s
+                @include breakpoints(s)
+                    transform: translate3d(calc(#{-$img-width-sm} + 10px), 0, 0) scale(1.1)
+                @include breakpoints($sm)
+                    transform: translate3d(calc(#{-$img-width-sm} - 30px), 0, 0) scale(1.1)
+
+        &--1
+            top: 50%
+            left: 0
+            transform:  translate3d(calc(#{-$img-width-sm}), -50%, 0)
+            @include breakpoints($sm)
+                transform:  translate3d(calc(#{-$img-width-sm} - 65px), -50%, 0)
+
+            &:hover
+                transition: transform .3s, opacity .3s
+                @include breakpoints(s)
+                    transform:  translate3d(-$img-width-sm, -50%, 0) scale(1.1)
+                @include breakpoints($sm)
+                    transform:  translate3d(calc(#{-$img-width-sm} - 65px), -50%, 0) scale(1.1)
+
+        &--2
+            top: calc(100% - #{$img-width-sm})
+            left: 0
+            transform:  translate3d(-$img-width-sm, 0, 0)
+            @include breakpoints($sm)
+                transform:  translate3d(calc(#{-$img-width-sm} - 30px), 0, 0)
+
+            &:hover
+                transition: transform .3s, opacity .3s
+                @include breakpoints(s)
+                    transform:  translate3d(calc(#{-$img-width-sm} + 10px), 0, 0) scale(1.1)
+                @include breakpoints($sm)
+                    transform:  translate3d(calc(#{-$img-width-sm} - 30px), 0, 0) scale(1.1)
+
+        &--3
+            max-width: 100%
+            left: 50%
+            top: 50%
+            transition: opacity .5s ease-in-out
+            -webkit-transition: opacity .5s ease-in-out
+            transform: translate3d(-50%, -50%, 0)
+            position: relative
+            text-align: center
+            opacity: 1
+            z-index: 2
+
+            a
+                pointer-events: visible
+
+            img
+                max-height: 350px
+                box-shadow: 1px 1px 10px 0 rgba(0, 0, 0, .15)
+                @include breakpoints(s)
+                    max-height: $img-height-main
+
+        &--4
+            top: calc(100% - #{$img-width-sm})
+            left: 77%
+            transform: translate3d($img-width-sm, 0, 0)
+            @include breakpoints($sm)
+                left: 75%
+                transform: translate3d(calc(#{$img-width-sm} + 30px), 0, 0)
+
+            &:hover
+                transition: transform .3s, opacity .3s
+                @include breakpoints(s)
+                    transform: translate3d($img-width-sm, 0, 0)scale(1.1)
+                @include breakpoints($sm)
+                    transform: translate3d(calc(#{$img-width-sm} + 30px), 0, 0) scale(1.1)
+
+        &--5
+            top: 50%
+            left: 77%
+            transform: translate3d($img-width-sm, -50%, 0)
+            @include breakpoints($sm)
+                left: 75%
+                transform: translate3d(calc(#{$img-width-sm} + 50px), -50%, 0)
+
+            &:hover
+                transition: transform .3s, opacity .3s
+                @include breakpoints(s)
+                    transform: translate3d(calc(#{$img-width-sm} - 10px), -50%, 0) scale(1.1)
+                @include breakpoints($sm)
+                    transform: translate3d(calc(#{$img-width-sm} + 50px), -50%, 0) scale(1.1)
+
+        &--6
+            top: 0
+            left: 77%
+            transform: translate3d($img-width-sm, 0, 0)
+            @include breakpoints($sm)
+                left: 75%
+                transform: translate3d(calc(#{$img-width-sm} + 30px), 0, 0)
+
+            &:hover
+                transition: transform .3s, opacity .3s
+                @include breakpoints(s)
+                    transform: scale(1.1) translate3d(calc(#{$img-width-sm} - 10px), 0, 0)
+                @include breakpoints($sm)
+                    transform: scale(1.1) translate3d(calc(#{$img-width-sm} + 20px), 0, 0)
