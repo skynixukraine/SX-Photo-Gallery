@@ -114,6 +114,7 @@ Or, You can do it this way:
 2. "All Photos" screen.
 3. Add new gallery.
 4. List of galleries.
+5. Gallery example.
 
 == Changelog ==
 
