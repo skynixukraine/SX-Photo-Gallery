@@ -79,16 +79,16 @@ class SXPG_gallery {
 
         $supports = array(
             'title',
-//            'editor',
+            'editor',
             'author',
             'thumbnail',
-//            'excerpt',
-//            'trackbacks',
+            'excerpt',
+            'trackbacks',
             'custom-fields',
-//            'comments',
-//            'revisions',
-//            'page-attributes',
-//            'post-formats',
+            'comments',
+            'revisions',
+            'page-attributes',
+            'post-formats',
         );
 
         // Set other options for Custom Post Type
@@ -247,15 +247,32 @@ class SXPG_gallery {
 
             while ( $gallery->have_posts() ) {
                 $gallery->the_post();
-                $attachment_id = get_post_thumbnail_id( $gallery->post->ID );
 
-                $response .= '<li class="sx-photo-gallery-photos__photo-container">';
-                $response .= '<img class="sx-photo-gallery-photos__photo" src="' . wp_get_attachment_image_src( $attachment_id, 'full' )[0] . '" alt="' . $gallery->post->post_title . '" data-url="' . $gallery->post->post_name . '" />';
-                $response .= '</li>';
+                $attachment_id = get_post_thumbnail_id( $gallery->post->ID );
+                $image_src     = wp_get_attachment_image_src( $attachment_id, 'full' )[0];
+
+                if ( !empty( $image_src ) ) {
+                    $response .= '<li class="sx-photo-gallery-photos__photo-container">';
+                    $response .= '<a href="' . get_permalink($gallery->post->ID) . '">';
+                    $response .= '<img class="sx-photo-gallery-photos__photo" src="' . $image_src . '" alt="' . $gallery->post->post_title . '" title="' . $gallery->post->post_title . '" />';
+                    $response .= '</a>';
+                    $response .= '</li>';
+                }
             }
 
             $response .= '</ul>';
-            $response .= '<div class="sx-photo-gallery__controlls"></div>';
+            $response .= '<div class="sx-photo-gallery__controlls">';
+            $response .= '<div class="sx-photo-gallery__controlls-arrow sx-photo-gallery__controlls-arrow--left" data-param="left"></div>';
+            $response .= '<a class="sx-photo-gallery__share">';
+            $response .= '<div class="sx-photo-gallery__share-facebook"></div>';
+            $response .= '<a class="sx-photo-gallery__share">';
+            $response .= '<div class="sx-photo-gallery__share-twitter"></div>';
+            $response .= '</a>';
+            $response .= '<a class="sx-photo-gallery__share">';
+            $response .= '<div class="sx-photo-gallery__share-linkedin"></div>';
+            $response .= '</a>';
+            $response .= '<div class="sx-photo-gallery__controlls-arrow sx-photo-gallery__controlls-arrow--right" data-param="right"></div>';
+            $response .= '</div>';
             $response .= '</section>';
         } else {
             $response = '<section class="sx-photo-gallery sx-photo-gallery--' . $skin . ' sx-photo-gallery--' . $gallery_name[0] . ' sx-photo-gallery--not-found"><h1>' . $category->name .'</h1> is empty or does not exist</section>';

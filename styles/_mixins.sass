@@ -1,0 +1,27 @@
+@import "variables"
+
+
+@mixin breakpoints($media)
+    @media only screen and (min-width: $media)
+        @content
+
+
+@mixin breakpoints($media)
+    @if $media == xs
+        @media only screen and (min-width: $x-small)
+            @content
+    @else if $media == s
+        @media only screen and (min-width: $small)
+            @content
+    @else if $media == m
+        @media only screen and (min-width: $medium)
+            @content
+    @else if $media == xm
+        @media only screen and (min-width: $x-medium)
+            @content
+    @else if $media == l
+        @media only screen and (min-width: $large)
+            @content
+    @else
+        @media only screen and (min-width: $media)
+            @content
