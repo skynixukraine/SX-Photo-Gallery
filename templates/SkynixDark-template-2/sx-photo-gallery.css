@@ -8,7 +8,7 @@ html, body {
 .sx-photo-gallery {
     width: 100%;
     height: 100vh;
-    padding: 5% 0;
+    padding: 0 1% 5%;
     background-color: #252525;
     overflow: hidden;
 }
@@ -16,6 +16,19 @@ html, body {
 @media only screen and (min-width: 576px) {
     .sx-photo-gallery {
         height: auto;
+    }
+}
+
+.sx-photo-gallery__title {
+    max-width: calc(350px*2);
+    margin: 5% 10px 1%;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+@media only screen and (min-width: 576px) {
+    .sx-photo-gallery__title {
+        margin: 30px auto 65px;
     }
 }
 

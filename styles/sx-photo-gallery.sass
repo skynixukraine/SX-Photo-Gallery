@@ -10,12 +10,20 @@ html,body
 .sx-photo-gallery
     width: 100%
     height: 100vh
-    padding: 5% 0
+    padding: 0 1% 5%
     background-color: $mine-shaft
     overflow: hidden
     perspective: 800px
     @include breakpoints(s)
         height: auto
+
+    &__title
+        max-width: calc(#{$img-width-main--s}*2)
+        margin: 5% 10px 1%
+        text-align: center
+        color: transparentize(#fff, .3)
+        @include breakpoints(s)
+            margin: 30px auto 65px
 
     &__controlls
         width: $controls-width
