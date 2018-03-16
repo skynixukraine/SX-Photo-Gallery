@@ -3,7 +3,6 @@
 Plugin Name: SX Photo Gallery
 Description: SX Photo Gallery is FREE inline photo gallery. Allows easily run a photogallery on any wordpress site in minutes.
 Version: 1.0.0
-Vendor: Skynix
 Author: Skynix Team
 Author URI: https://skynix.company/
 License: GPL

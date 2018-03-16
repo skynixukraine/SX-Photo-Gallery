@@ -181,7 +181,7 @@ class SXPG_gallery {
 
     /**
      * Allow to filter photos by galleries
-     * 
+     *
      * @param $post_type
      */
     public function sxpg_filter_by_galleries( $post_type ) {
